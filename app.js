@@ -7,7 +7,8 @@ var express = require('express'),
     methodOverride = require('method-override'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
-    errorhandler = require('errorhandler');
+    errorhandler = require('errorhandler'),
+    multer  = require('multer');
 
 var app = module.exports = exports.app = express();
 
@@ -17,6 +18,7 @@ app.locals.siteName = "tinyfeed";
 var db = require('./config/db');
 app.use(express.static(__dirname + '/public'));
 
+app.use(multer({ dest: './uploads/'}));
 
 // Bootstrap models
 var modelsPath = path.join(__dirname, 'models');

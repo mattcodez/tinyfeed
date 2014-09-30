@@ -3,15 +3,17 @@
   "description": "tinyfeed app description here",
   "version": "0.0.1",
   "private": true,
-	"dependencies": {
-		"ejs": "latest",
-		"express": "latest",
-		"mongoose": "latest",
+  "dependencies": {
+    "ejs": "latest",
+    "express": "latest",
+    "mongoose": "latest",
     "morgan": "latest",
     "method-override": "latest",
     "body-parser": "latest",
-    "errorhandler": "latest"
-	},
+    "errorhandler": "latest",
+    "fluent-ffmpeg": "^2.0.0-rc2",
+    "multer": "^0.1.4"
+  },
   "devDependencies": {
     "gulp": "latest",
     "bower": "latest",
@@ -23,7 +25,7 @@
     "forever": "latest"
   },
   "scripts": {
-    "test" : "gulp test",
+    "test": "gulp test",
     "start": "app.js"
-  }	
+  }
 }
