@@ -19,7 +19,9 @@ body {
 }
 
 #addVideo {
-	float: right;
+  position: relative;
+  float: right;
+  margin: 2.5px 35px 0px 0px;
 }
 
 #addVideo button {
@@ -35,5 +37,4 @@ body {
   width: 100%;
   left: 0;
   z-index: -1;
-  max-height:75%;
 }
