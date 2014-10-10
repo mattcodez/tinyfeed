@@ -28,6 +28,8 @@ module.exports = function(app) {
 			  })
 				.save('uploads/' + (filecount++) + '.mp4');
 		}
+
+		res.send(200);
 	};
 
 	app.post('/upload', route.upload);
