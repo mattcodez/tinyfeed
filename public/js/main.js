@@ -12,6 +12,8 @@ function init(){
 	var videoForm = $('#addVideo FORM');
 	var fileInput = $('#addVideo INPUT[type=file]');
 
+	startVideos($('#videoFeed'));
+
 	//Trigger file selection from separate button
 	$('#addVideo BUTTON').on('click', function(){
 		fileInput.click();
@@ -38,6 +40,25 @@ function init(){
 			success: function(data){}
 		});
 	});
+}
+
+function startVideos(video){
+	nextVid(video);
+
+	video[0].onended = function(){
+		nextVid(video);
+	};
+
+	video[0].onerror = function(){
+		//If we couldn't get the current video, try again in 12 seconds
+		setTimeout(function(){
+			video.attr('src', video.attr('src'));
+		}, 12 * 1000);
+	};
+}
+
+function nextVid(video){
+	video.attr('src', 'video/' + vidIndex++ + '.mp4');
 }
 
 function getVideoFormData(files){

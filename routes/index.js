@@ -3,6 +3,16 @@ var fs = require('fs');
 
 module.exports = function(app) {
 	var route = {};
+	var filecount = 0;
+	var vidIndex = filecount;
+
+	setInterval(function(){
+		//Increment vidIndex every 10 seconds
+		//Don't let it exceed the current filecount though
+		if (vidIndex < filecount){
+			vidIndex++;
+		}
+	}, 10 * 1000);
 
 	// index.html
 	route.index = function (req, res) {
@@ -10,10 +20,9 @@ module.exports = function(app) {
 	};
 
 	route.main = function(req, res){
-		res.render('main');
+		res.render('main', {vidIndex:vidIndex});
 	};
 
-	var filecount = 0;
 	route.upload = function(req, res){
 		var file = req.files.videos;
 		if (file){
