@@ -1,4 +1,5 @@
 var ffmpeg = require('fluent-ffmpeg');
+var fs = require('fs');
 
 module.exports = function(app) {
 	var route = {};
@@ -25,8 +26,9 @@ module.exports = function(app) {
 			  })
 			  .on('end', function() {
 			    console.log('Processing finished !');
+					fs.unlink(file.path);
 			  })
-				.save('uploads/' + (filecount++) + '.mp4');
+				.save('public/video/' + (filecount++) + '.mp4');
 		}
 
 		res.send(200);
