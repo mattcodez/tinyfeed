@@ -14,7 +14,7 @@ module.exports = function(app) {
 
 	var filecount = 0;
 	route.upload = function(req, res){
-		var file = req.files[0];
+		var file = req.files.videos;
 		if (file){
 			var vid = ffmpeg(file.path)
 				.videoCodec('libx264')
