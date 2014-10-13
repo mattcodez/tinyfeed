@@ -30,8 +30,11 @@ module.exports = function(app) {
 				.videoCodec('libx264')
 				.duration(10)
 				.format('mp4')
+				.on('start', function(commandLine) {
+    			console.log('Spawned Ffmpeg with command: ' + commandLine);
+  			})
 				.on('error', function(err) {
-			    console.log('An error occurred: ' + err.message);
+					console.log(arguments);
 			  })
 			  .on('end', function() {
 			    console.log('Processing finished !');
@@ -40,7 +43,7 @@ module.exports = function(app) {
 				.save('public/video/' + (filecount++) + '.mp4');
 		}
 
-		res.send(200);
+		res.status(200).end();
 	};
 
 	app.post('/upload', route.upload);

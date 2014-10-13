@@ -50,10 +50,11 @@ function startVideos(video){
 	};
 
 	video[0].onerror = function(){
-		//If we couldn't get the current video, try again in 12 seconds
+		//If we couldn't get the current video, start the counter over, but wait a few secs
 		setTimeout(function(){
-			video.attr('src', video.attr('src'));
-		}, 12 * 1000);
+			vidIndex = 0;
+			nextVid(video);
+		}, 6 * 1000);
 	};
 }
 
