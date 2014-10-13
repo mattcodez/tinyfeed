@@ -28,6 +28,7 @@ module.exports = function(app) {
 		if (file){
 			var vid = ffmpeg(file.path)
 				.videoCodec('libx264')
+				.audioCodec('aac')
 				.duration(10)
 				.format('mp4')
 				.on('start', function(commandLine) {
