@@ -5,6 +5,16 @@ module.exports = function(app) {
 	var route = {};
 	var filecount = 0;
 	var vidIndex = filecount;
+	var publicVidPath = 'public/video/';
+
+	var vidFiles = fs.readdirSync(publicVidPath);
+	var filesSorted = vidFiles.sort();
+	var lastFile = filesSorted[filesSorted.length - 1];
+	if (lastFile){
+		filecount = ~~(lastFile.substring(0, lastFile.indexOf('.'))) + 1;
+		vidIndex = filecount;
+	}
+	console.log('fileCount started at ' + filecount);
 
 	setInterval(function(){
 		//Increment vidIndex every 10 seconds
@@ -41,7 +51,7 @@ module.exports = function(app) {
 			    console.log('Processing finished !');
 					fs.unlink(file.path);
 			  })
-				.save('public/video/' + (filecount++) + '.mp4');
+				.save(publicVidPath + (filecount++) + '.mp4');
 		}
 
 		res.status(200).end();
