@@ -17,6 +17,10 @@ module.exports = function(app) {
 	console.log('fileCount started at ' + filecount);
 
 	setInterval(function(){
+		/*vidIndex is sent to the client to state where we're currently playing
+		we increment in intervals with the idea that the filecount will one
+		day be far ahead.*/
+
 		//Increment vidIndex every 10 seconds
 		//Don't let it exceed the current filecount though
 		if (vidIndex < filecount){
