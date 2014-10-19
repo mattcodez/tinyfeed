@@ -37,7 +37,14 @@ function init(){
 			processData: false,
 			contentType: false,
 			type: 'POST',
-			success: function(data){}
+			success: function(data){},
+			xhr: function() {  // Custom XMLHttpRequest
+          var myXhr = $.ajaxSettings.xhr();
+          if(myXhr.upload){ // Check if upload property exists
+              myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+          }
+          return myXhr;
+      }
 		});
 	});
 }
@@ -75,4 +82,19 @@ function getVideoFormData(files){
 	}
 
 	return formData;
+}
+
+var progressBarContainer = $('#uploadProgress');
+var progressBar = progressBarContainer.find('.progress-bar');
+function progressHandlingFunction(e){
+	if (!progressBarContainer.is(":visible")){
+		progressBarContainer.slideDown();
+	}
+
+	var percent = Math.round((e.loaded/e.total) * 100);
+	progressBar.css('width', percent + '%');
+
+	if (percent === 100){
+		progressBarContainer.slideUp();
+	}
 }
