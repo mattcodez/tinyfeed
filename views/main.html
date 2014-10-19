@@ -2,22 +2,48 @@
 <html>
 <head>
   <title><%= siteName %></title>
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
-  <script type="text/javascript" src="js/vendor/jquery-1.11.1.min.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
-  <div id="header">
-    <img src="img/tinyfeed.png" id="logo">
-    <div id="addVideo">
-      <form style="display:none;">
-        <input type="file" accept="video/*" capture="camera">
-      </form>
-      <button>Add Your Video!!</button>
+  <div id="header" class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-4 col-xs-12 text-center">
+        <img src="img/tinyfeed.png" id="logo">
+      </div>
+
+      <div class="col-md-4 col-xs-12">
+        <div id="addVideo">
+          <form style="display:none;">
+            <input type="file" accept="video/*" capture="camera">
+          </form>
+          <button type="button" class="btn btn-block btn-default">Add Your Video!!</button>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-xs-12">
+        <div class="dropdown">
+          <button class="btn btn-default btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+            About
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Terms of Service</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
   <video id="videoFeed" autoplay></video>
 
+
+  <script type="text/javascript" src="js/vendor/jquery-1.11.1.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript">
     var vidIndex = <%= vidIndex %>;
   </script>
