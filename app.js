@@ -8,9 +8,13 @@ var express = require('express'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
     errorhandler = require('errorhandler'),
-    multer  = require('multer');
+    multer  = require('multer'),
+    socketio = require('socket.io');
 
 var app = module.exports = exports.app = express();
+var server = require('http').createServer(app);
+var io = socketio(server);
+app.io = io;
 
 app.locals.siteName = "tinyfeed";
 
@@ -72,6 +76,6 @@ fs.readdirSync(routesPath).forEach(function(file) {
 });
 
 // Start server
-app.listen(port, function () {
+server.listen(port, function () {
   console.log('Express server listening on port %d in %s mode', port, app.get('env'));
 });

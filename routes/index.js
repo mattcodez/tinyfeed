@@ -61,6 +61,11 @@ module.exports = function(app) {
 		res.status(200).end();
 	};
 
+	var io = app.io;
+	io.on('connection', function (socket) {
+	  console.log('socket connected');
+	});
+
 	app.post('/upload', route.upload);
 	app.get('/routemap', route.index);
 	app.get('/', route.main);

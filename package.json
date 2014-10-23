@@ -12,7 +12,8 @@
     "body-parser": "latest",
     "errorhandler": "latest",
     "fluent-ffmpeg": "^2.0.0-rc2",
-    "multer": "^0.1.4"
+    "multer": "^0.1.4",
+    "socket.io": "^1.1.0"
   },
   "devDependencies": {
     "gulp": "latest",
