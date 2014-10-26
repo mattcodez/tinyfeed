@@ -6,10 +6,20 @@ module.exports = function(app) {
 	var filecount = 0;
 	var vidIndex = filecount;
 	var publicVidPath = 'public/video/';
+	var vidList = [];
 
 	var vidFiles = fs.readdirSync(publicVidPath);
 	var filesSorted = vidFiles.sort();
 	var lastFile = filesSorted[filesSorted.length - 1];
+
+
+	//Build vid list
+	for (var i = 0; i < vidFiles.length; i++){
+		var vid = vidFiles[i];
+		ffmpeg(publicVidPath + vid).ffprobe(addVidToList.bind(null, vid));
+	}
+
+	//Find out where we left off on the file count
 	if (lastFile){
 		filecount = ~~(lastFile.substring(0, lastFile.indexOf('.'))) + 1;
 		vidIndex = filecount;
@@ -40,6 +50,7 @@ module.exports = function(app) {
 	route.upload = function(req, res){
 		var file = req.files.videos;
 		if (file){
+			var newFileName = (filecount++) + '.mp4';
 			var vid = ffmpeg(file.path)
 				.videoCodec('libx264')
 				.audioCodec('aac')
@@ -48,14 +59,16 @@ module.exports = function(app) {
 				.on('start', function(commandLine) {
     			console.log('Spawned Ffmpeg with command: ' + commandLine);
   			})
-				.on('error', function(err) {
-					console.log(arguments);
-			  })
-			  .on('end', function() {
+				.on('error', function(vid, err1, err2, err3) {
+					console.log(err1);
+					fs.unlink(publicVidPath + vid);
+			  }.bind(null, newFileName))
+			  .on('end', function(vid) {
 			    console.log('Processing finished !');
 					fs.unlink(file.path);
-			  })
-				.save(publicVidPath + (filecount++) + '.mp4');
+					ffmpeg(publicVidPath + vid).ffprobe(addVidToList.bind(null, vid));
+			  }.bind(null, newFileName))
+				.save(publicVidPath + newFileName);
 		}
 
 		res.status(200).end();
@@ -69,4 +82,18 @@ module.exports = function(app) {
 	app.post('/upload', route.upload);
 	app.get('/routemap', route.index);
 	app.get('/', route.main);
+
+	function addVidToList(vid, err, data) {
+		if (err){
+			console.log('FFPROBE error: ' + vid);
+		}
+		else {
+			var duration = data.format.duration;
+			vidList.push({
+				file: vid,
+				duration: duration
+			});
+			console.log('Logging video ' + vid + ' with length ' + duration);
+		}
+	}
 };
