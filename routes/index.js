@@ -4,7 +4,7 @@ var fs = require('fs');
 module.exports = function(app) {
 	var route = {};
 	var filecount = 0;
-	var vidIndex = filecount;
+	var vidIndex = 0;
 	var publicVidPath = 'public/video/';
 	var vidList = [];
 
@@ -16,27 +16,27 @@ module.exports = function(app) {
 	//Build vid list
 	for (var i = 0; i < vidFiles.length; i++){
 		var vid = vidFiles[i];
-		ffmpeg(publicVidPath + vid).ffprobe(addVidToList.bind(null, vid));
+		ffmpeg(publicVidPath + vid).ffprobe(function(vid, i, err, data){
+			if (i == vidFiles.length - 1){
+				//If we're at the last file, start the play loop
+				//may not be completely in order but should be close enough
+				//since video playback will take time anyways
+				playFunc();
+			}
+
+			addVidToList(vid, err, data);
+		}.bind(null, vid, i));
 	}
 
 	//Find out where we left off on the file count
 	if (lastFile){
 		filecount = ~~(lastFile.substring(0, lastFile.indexOf('.'))) + 1;
-		vidIndex = filecount;
+		//vidIndex = filecount;
 	}
 	console.log('fileCount started at ' + filecount);
 
-	setInterval(function(){
-		/*vidIndex is sent to the client to state where we're currently playing
-		we increment in intervals with the idea that the filecount will one
-		day be far ahead.*/
-
-		//Increment vidIndex every 10 seconds
-		//Don't let it exceed the current filecount though
-		if (vidIndex < filecount){
-			vidIndex++;
-		}
-	}, 10 * 1000);
+	//Send the next video name every half second
+	//...
 
 	// index.html
 	route.index = function (req, res) {
@@ -44,7 +44,8 @@ module.exports = function(app) {
 	};
 
 	route.main = function(req, res){
-		res.render('main', {vidIndex:vidIndex});
+		//res.render('main', {vidIndex:vidIndex});
+		res.render('main');
 	};
 
 	route.upload = function(req, res){
@@ -96,4 +97,20 @@ module.exports = function(app) {
 			console.log('Logging video ' + vid + ' with length ' + duration);
 		}
 	}
+
+	//Start looping through the videos on the server using vid length
+	function playFunc(){
+		var vid = vidList[vidIndex++];
+
+		if (!vid){
+			vidIndex = 0;
+			vid = vidList[vidIndex++];
+		}
+
+		console.log('Playing vid ' + vid.file + ' @ ' + vid.duration);
+		setTimeout(function(){
+			//TODO:socket.emit('nextVid', vidList[vidIndex + 1].file);
+			playFunc();
+		}, vid.duration * 1000)
+	};
 };
