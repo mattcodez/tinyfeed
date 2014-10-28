@@ -22,6 +22,7 @@ module.exports = function(app) {
 				//may not be completely in order but should be close enough
 				//since video playback will take time anyways
 				playFunc();
+				fileBroadcast();
 			}
 
 			addVidToList(vid, err, data);
@@ -34,9 +35,6 @@ module.exports = function(app) {
 		//vidIndex = filecount;
 	}
 	console.log('fileCount started at ' + filecount);
-
-	//Send the next video name every half second
-	//...
 
 	// index.html
 	route.index = function (req, res) {
@@ -109,8 +107,16 @@ module.exports = function(app) {
 
 		console.log('Playing vid ' + vid.file + ' @ ' + vid.duration);
 		setTimeout(function(){
-			//TODO:socket.emit('nextVid', vidList[vidIndex + 1].file);
 			playFunc();
 		}, vid.duration * 1000)
 	};
+
+	//Send the next video name every second
+	function fileBroadcast(){
+		setInterval(function(){
+			var nextVid = vidList[vidIndex + 1];
+			if (!nextVid) nextVid = vidList[0];
+			io.emit('nextVid', nextVid.file);
+		}, 1000);
+	}
 };

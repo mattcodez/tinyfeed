@@ -1,3 +1,4 @@
+var socket;
 $(document).ready(function() {
 	$('#videoFeed').css('max-height', ($(window).height() - 42) + 'px');
 
@@ -6,7 +7,16 @@ $(document).ready(function() {
 	});
 
 	init();
+	initSocket();
 });
+
+function initSocket(){
+	socket = io.connect();
+
+	socket.on('nextVid', function(data){
+		//data.nextVid
+	});
+}
 
 function init(){
 	var videoForm = $('#addVideo FORM');
@@ -66,7 +76,7 @@ function startVideos(video){
 }
 
 function nextVid(video){
-	video.attr('src', 'video/' + vidIndex++ + '.mp4');
+	//video.attr('src', 'video/' + vidIndex++ + '.mp4');
 }
 
 function getVideoFormData(files){
