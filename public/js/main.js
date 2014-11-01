@@ -30,7 +30,25 @@ function init(){
 
 	//Trigger file selection from separate button
 	$('#addVideo BUTTON').on('click', function(){
-		fileInput.click();
+		if (window.localStorage && window.localStorage.distNoticeConfirmed == "true"){
+			fileInput.click();
+			return;
+		}
+
+		swal({
+			title: "Notice",
+			text: "Uploading your video permits TinyFeed.me to distribute your work (the video). \
+				You still retain all copyrights to your work.",
+			type: "info",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "Continue",
+			closeOnConfirm: true },
+			function(){
+				window.localStorage && (window.localStorage.distNoticeConfirmed = "true");
+				fileInput.click();
+			}
+		);
 	});
 
 	//Submit form when file is selected
