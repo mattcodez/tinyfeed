@@ -37,8 +37,10 @@ function init(){
 
 		swal({
 			title: "Notice",
-			text: "Uploading your video permits TinyFeed.me to distribute your work (the video). \
-				You still retain all copyrights to your work.",
+			text: "Uploading your video permits TinyFeed.me to distribute your \
+				work (the video). You still retain all copyrights to your work. \
+				You also agree not to upload content that you do not own copyright on \
+				nor anything sexually explicit.",
 			type: "info",
 			showCancelButton: true,
 			confirmButtonColor: "#DD6B55",
