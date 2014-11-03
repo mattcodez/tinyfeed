@@ -3,7 +3,6 @@ var fs = require('fs');
 
 module.exports = function(app) {
 	var route = {};
-	var filecount = 0;
 	var vidIndex = 0;
 	var publicVidPath = 'public/video/';
 	var vidList = [];
@@ -29,13 +28,6 @@ module.exports = function(app) {
 		}.bind(null, vid, i));
 	}
 
-	//Find out where we left off on the file count
-	if (lastFile){
-		filecount = ~~(lastFile.substring(0, lastFile.indexOf('.'))) + 1;
-		//vidIndex = filecount;
-	}
-	console.log('fileCount started at ' + filecount);
-
 	// index.html
 	route.index = function (req, res) {
 	  res.render('index', {locals: { routes: app._router.stack }});
@@ -47,10 +39,10 @@ module.exports = function(app) {
 	};
 
 	route.upload = function(req, res){
-		var file = req.files.videos;
-		if (file){
-			var newFileName = (filecount++) + '.mp4';
-			var vid = ffmpeg(file.path)
+		var newVideo = req.files.videos;
+		if (newVideo){
+			var newFileName = newVideo.name.replace(/\.[^/.]+$/, "") + '.mp4';
+			var vid = ffmpeg(newVideo.path)
 				.videoCodec('libx264')
 				.audioCodec('aac')
 				.duration(10)
@@ -58,14 +50,14 @@ module.exports = function(app) {
 				.on('start', function(commandLine) {
     			console.log('Spawned Ffmpeg with command: ' + commandLine);
   			})
-				.on('error', function(vid, err1, err2, err3) {
+				.on('error', function(newFileName, err1, err2, err3) {
 					console.log(err1);
-					fs.unlink(publicVidPath + vid);
+					fs.unlink(publicVidPath + newFileName);
 			  }.bind(null, newFileName))
-			  .on('end', function(vid) {
+			  .on('end', function(newFileName) {
 			    console.log('Processing finished !');
-					fs.unlink(file.path);
-					ffmpeg(publicVidPath + vid).ffprobe(addVidToList.bind(null, vid));
+					fs.unlink(newVideo.path);
+					ffmpeg(publicVidPath + newFileName).ffprobe(addVidToList.bind(null, vid));
 			  }.bind(null, newFileName))
 				.save(publicVidPath + newFileName);
 		}
