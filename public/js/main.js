@@ -53,6 +53,18 @@ function init(){
 		);
 	});
 
+	$('#aboutInfo').on('click', function(){
+		swal({
+			title: "About",
+			text: "At TinyFeed.me, the spotlight is on you! \
+				When you upload a video to TinyFeed.me, we add it to our playlist. \
+				Once the videos ahead of yours have played, yours will play. \
+				For 10 seconds, your creation will be the only thing everyone \
+				sees on our site! So get imaginative, stand-out and make your \
+				voice heard!"
+		});
+	});
+
 	//Submit form when file is selected
 	fileInput.on('change', function(){
 		videoForm.submit();

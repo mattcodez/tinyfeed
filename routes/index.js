@@ -34,13 +34,13 @@ module.exports = function(app) {
 	};
 
 	route.main = function(req, res){
-		//res.render('main', {vidIndex:vidIndex});
 		res.render('main');
 	};
 
 	route.upload = function(req, res){
 		var newVideo = req.files.videos;
 		if (newVideo){
+			//Regex to remove uploaded file extension
 			var newFileName = newVideo.name.replace(/\.[^/.]+$/, "") + '.mp4';
 			var vid = ffmpeg(newVideo.path)
 				.videoCodec('libx264')
@@ -98,9 +98,7 @@ module.exports = function(app) {
 		}
 
 		console.log('Playing vid ' + vid.file + ' @ ' + vid.duration);
-		setTimeout(function(){
-			playFunc();
-		}, vid.duration * 1000)
+		setTimeout(playFunc, vid.duration * 1000);
 	};
 
 	//Send the next video name every second
