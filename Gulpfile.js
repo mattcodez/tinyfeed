@@ -3,8 +3,14 @@
 var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
   mocha = require('gulp-mocha'),
-  watch = require('gulp-watch');
-
+  watch = require('gulp-watch'),
+  autoprefixer = require('gulp-autoprefixer'),
+  minifycss = require('gulp-minify-css'),
+  uglify = require('gulp-uglify'),
+  rename = require('gulp-rename'),
+  notify = require('gulp-notify'),
+  cache = require('gulp-cache'),
+  del = require('del');
 
 // Copy all static images
 gulp.task('test', function () {
@@ -12,7 +18,7 @@ gulp.task('test', function () {
     .pipe(mocha({
       ignoreLeaks: false,
       reporter: 'nyan'
-    }));   
+    }));
 });
 
 gulp.task('nodemon', function () {
