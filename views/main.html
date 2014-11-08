@@ -59,7 +59,11 @@
     <p class="vjs-no-js">To enjoy watching tinyfeed, please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
   </video>
 
+
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript">
+    var vidQueue = ['<%= currentVid %>'];
+  </script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="bower_components/sweetalert/lib/sweet-alert.min.js"></script>
   <script src="bower_components/videojs/dist/video-js/video.js"></script>

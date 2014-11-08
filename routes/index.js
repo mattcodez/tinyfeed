@@ -34,7 +34,7 @@ module.exports = function(app) {
 	};
 
 	route.main = function(req, res){
-		res.render('main');
+		res.render('main', {locals: {currentVid:vidList[vidIndex].file}});
 	};
 
 	route.upload = function(req, res){

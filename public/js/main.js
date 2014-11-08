@@ -10,7 +10,7 @@ $(document).ready(function() {
 	initSocket();
 });
 
-var vidQueue = [];
+var currentVid = null;
 function initSocket(){
 	socket = io.connect();
 
