@@ -57,7 +57,7 @@ module.exports = function(app) {
 			  .on('end', function(newFileName) {
 			    console.log('Processing finished !');
 					fs.unlink(newVideo.path);
-					ffmpeg(publicVidPath + newFileName).ffprobe(addVidToList.bind(null, vid));
+					ffmpeg(publicVidPath + newFileName).ffprobe(addVidToList.bind(null, newFileName));
 			  }.bind(null, newFileName))
 				.save(publicVidPath + newFileName);
 		}
@@ -97,7 +97,7 @@ module.exports = function(app) {
 			vid = vidList[vidIndex++];
 		}
 
-		console.log('Playing vid ' + vid.file + ' @ ' + vid.duration);
+		console.log(((new Date()).getTime() / 1000) + ' Playing vid ' + vid.file + ' @ ' + vid.duration);
 		setTimeout(playFunc, vid.duration * 1000);
 	};
 
