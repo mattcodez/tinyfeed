@@ -26,6 +26,18 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('dist/assets/css'));
 });
 
+gulp.task('js', function() {
+  return gulp.src([
+      'public/js/vendor/jquery-1.11.1.min.js',
+      'public/bower_components/bootstrap/dist/js/bootstrap.min.js',
+      'public/bower_components/sweetalert/lib/sweet-alert.min.js',
+      'public/js/main.js'])
+		.pipe(concat('build.js'))
+		.pipe(uglify())
+    .pipe(rename({suffix: '.min'}))
+		.pipe(gulp.dest('dist/assets/js'));
+});
+
 // Copy all static images
 gulp.task('test', function () {
   gulp.src('./test/*.js')
