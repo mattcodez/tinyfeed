@@ -11,12 +11,13 @@ $(document).ready(function() {
 });
 
 var vidQueue = [];
+var currentVid = null;
 function initSocket(){
 	socket = io.connect();
 
 	socket.on('nextVid', function(data){
 		//The same vid name is constantly coming through, don't add duplicates
-		if (vidQueue.indexOf(data) == -1){
+		if (vidQueue.indexOf(data) == -1 && data != currentVid){
 			vidQueue.push(data);
 		}
 	});
@@ -100,20 +101,21 @@ function startVideos(videoDOM){
 
 	videoDOM[0].onended = function(){
 		nextVid(videoDOM);
-		vidQueue.shift(); //Don't remove from list until done playing
 	};
 
 	videoDOM[0].onerror = function(){
 		//If we couldn't get the current video,
-		//wait a few secs to see if queue gets data again
+		//wait a sec to see if queue gets data again
 		setTimeout(function(){
 			nextVid(videoDOM);
-		}, 6 * 1000);
+		}, 1.5 * 1000);
 	};
 }
 
 function nextVid(videoDOM){
-	videoDOM.attr('src', 'video/' + vidQueue[0]);
+	currentVid = vidQueue[0];
+	vidQueue.shift();
+	videoDOM.attr('src', 'video/' + currentVid);
 }
 
 function getVideoFormData(files){
