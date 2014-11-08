@@ -4,6 +4,7 @@ var gulp = require('gulp'),
   nodemon = require('gulp-nodemon'),
   mocha = require('gulp-mocha'),
   watch = require('gulp-watch'),
+  concat = require('gulp-concat'),
   autoprefixer = require('gulp-autoprefixer'),
   minifycss = require('gulp-minify-css'),
   uglify = require('gulp-uglify'),
@@ -11,6 +12,19 @@ var gulp = require('gulp'),
   notify = require('gulp-notify'),
   cache = require('gulp-cache'),
   del = require('del');
+
+gulp.task('styles', function() {
+  return gulp.src([
+      'public/css/vendor/bootstrap.cyborg.min.css',
+      'public/bower_components/sweetalert/lib/sweet-alert.css',
+      'public/css/main.css'])
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(concat('build.css'))
+    .pipe(gulp.dest('dist/assets/css'))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(minifycss())
+    .pipe(gulp.dest('dist/assets/css'));
+});
 
 // Copy all static images
 gulp.task('test', function () {
