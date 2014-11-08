@@ -1,9 +1,9 @@
 var socket;
 $(document).ready(function() {
-	$('#videoFeed').css('max-height', ($(window).height() - 42) + 'px');
+	$('#videoFeed').css('max-height', ($(window).height() - $('#header').height()) + 'px');
 
 	$(window).on('resize', function() {
-		$('#videoFeed').css('max-height', ($(window).height() - 42) + 'px');
+		$('#videoFeed').css('max-height', ($(window).height() - $('#header').height()) + 'px');
 	});
 
 	init();
@@ -11,13 +11,12 @@ $(document).ready(function() {
 });
 
 var vidQueue = [];
-var currentVid = null;
 function initSocket(){
 	socket = io.connect();
 
 	socket.on('nextVid', function(data){
 		//The same vid name is constantly coming through, don't add duplicates
-		if (vidQueue.indexOf(data) == -1 && data != currentVid){
+		if (vidQueue.indexOf(data) == -1){
 			vidQueue.push(data);
 		}
 	});
@@ -101,21 +100,20 @@ function startVideos(videoDOM){
 
 	videoDOM[0].onended = function(){
 		nextVid(videoDOM);
+		vidQueue.shift(); //Don't remove from list until done playing
 	};
 
 	videoDOM[0].onerror = function(){
 		//If we couldn't get the current video,
-		//wait a sec to see if queue gets data again
+		//wait a few secs to see if queue gets data again
 		setTimeout(function(){
 			nextVid(videoDOM);
-		}, 1.5 * 1000);
+		}, 6 * 1000);
 	};
 }
 
 function nextVid(videoDOM){
-	currentVid = vidQueue[0];
-	vidQueue.shift();
-	videoDOM.attr('src', 'video/' + currentVid);
+	videoDOM.attr('src', 'video/' + vidQueue[0]);
 }
 
 function getVideoFormData(files){
