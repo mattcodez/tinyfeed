@@ -16,7 +16,7 @@ function initSocket(){
 
 	socket.on('nextVid', function(data){
 		//The same vid name is constantly coming through, don't add duplicates
-		if (vidQueue.indexOf(data) == -1){
+		if (vidQueue.indexOf(data) == -1 && data != currentVid){
 			vidQueue.push(data);
 		}
 	});
@@ -100,7 +100,6 @@ function startVideos(videoDOM){
 
 	videoDOM[0].onended = function(){
 		nextVid(videoDOM);
-		vidQueue.shift(); //Don't remove from list until done playing
 	};
 
 	videoDOM[0].onerror = function(){
@@ -113,7 +112,9 @@ function startVideos(videoDOM){
 }
 
 function nextVid(videoDOM){
-	videoDOM.attr('src', 'video/' + vidQueue[0]);
+	currentVid = vidQueue[0];
+	vidQueue.shift();
+	videoDOM.attr('src', 'video/' + currentVid);
 }
 
 function getVideoFormData(files){
