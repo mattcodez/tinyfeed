@@ -60,15 +60,13 @@
   </video>
 
 
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript">
     var vidQueue = ['<%= currentVid %>'];
   </script>
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/sweetalert/lib/sweet-alert.min.js"></script>
-  <script src="bower_components/videojs/dist/video-js/video.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="js/main.js"></script>
+  <% for (var i = 0; i < jsFiles.length; i++) {%>
+    <script src="<%= jsFiles[i] %>"></script>
+  <% } %>
 
   <script>
     videojs.options.flash.swf = "bower_components/videojs/dist/video-js/video-js.swf";

@@ -34,7 +34,15 @@ module.exports = function(app) {
 	};
 
 	route.main = function(req, res){
-		res.render('main', {locals: {currentVid:vidList[vidIndex].file}});
+		if (app.get('env') == 'development'){
+			res.render('main', {locals: {
+				currentVid: vidList[vidIndex].file,
+				jsFiles: require('../config/assets.js').js
+			}});
+		}
+		else{
+			res.render('main', {locals: {currentVid:vidList[vidIndex].file}});
+		}
 	};
 
 	route.upload = function(req, res){
