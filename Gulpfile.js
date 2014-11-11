@@ -11,7 +11,16 @@ var gulp = require('gulp'),
   rename = require('gulp-rename'),
   notify = require('gulp-notify'),
   cache = require('gulp-cache'),
+  ejs = require('gulp-ejs'),
   del = require('del');
+
+var assets = require('./config/assets.js');
+
+gulp.task('prodHTML', function(){
+  return gulp.src('views/main.html')
+    .pipe(ejs(assets, {open:'<@', close:'@>'}))
+    .pipe(gulp.dest('dist/main.html'));
+});
 
 gulp.task('styles', function() {
   return gulp.src([
