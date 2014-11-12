@@ -11,13 +11,20 @@ $(document).ready(function() {
 });
 
 var currentVid = null;
+var vidQueue = [];
 function initSocket(){
 	socket = io.connect();
+	var videoDOM = $('#videoFeed');
 
 	socket.on('nextVid', function(data){
 		//The same vid name is constantly coming through, don't add duplicates
 		if (vidQueue.indexOf(data) == -1 && data != currentVid){
 			vidQueue.push(data);
+
+			if (vidQueue.length == 1 && !videoDOM.paused){
+				//The queue was empty before we got here, try playing videos again
+				nextVid(videoDOM);
+			}
 		}
 	});
 }
@@ -103,11 +110,7 @@ function startVideos(videoDOM){
 	};
 
 	videoDOM[0].onerror = function(){
-		//If we couldn't get the current video,
-		//wait a few secs to see if queue gets data again
-		setTimeout(function(){
-			nextVid(videoDOM);
-		}, 6 * 1000);
+		//nothing
 	};
 }
 
