@@ -18,8 +18,8 @@ var assets = require('./config/assets.js');
 
 gulp.task('prodHTML', function(){
   return gulp.src('views/main.html')
-    .pipe(ejs(assets, {open:'<@', close:'@>'}))
-    .pipe(gulp.dest('dist/main.html'));
+    .pipe(ejs({jsFiles:['assets/js/build.min.js'], siteName:'TinyFeed.ME'}))
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('styles', function() {

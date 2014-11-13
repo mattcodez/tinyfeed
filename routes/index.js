@@ -35,21 +35,11 @@ module.exports = function(app) {
 
 	route.main = function(req, res){
 		if (app.get('env') == 'development'){
-			res.render(
-				'main',
-				{locals: {currentVid: vidList[vidIndex].file}},
-				function(err, html){
-					var ejs = require('ejs');
-					ejs.open = '<@';
-					ejs.close = '@>';
-					require('../config/assets.js')
-					var html = ejs.render(html, {open:'<@', close:'@>'});
-					res.send(html);
-				}
-			);
+			//vidList[vidIndex].file
+			res.render('main', {locals: require('../config/assets.js')});
 		}
 		else{
-			res.render('main', {locals: {currentVid:vidList[vidIndex].file}});
+			res.render('main');
 		}
 	};
 

@@ -60,9 +60,9 @@
   </video>
 
   <script src="/socket.io/socket.io.js"></script>
-  <@ for (var i = 0; i < jsFiles.length; i++) {@>
-    <script src="<@= jsFiles[i] @>"></script>
-  <@ } @>
+  <% for (var i = 0; i < js.length; i++) {%>
+    <script src="<%= js[i] %>"></script>
+  <% } %>
 
   <script>
     videojs.options.flash.swf = "bower_components/videojs/dist/video-js/video-js.swf";
