@@ -2,10 +2,10 @@
 <html>
 <head>
   <title><%= siteName %></title>
-  <link rel="stylesheet" href="css/vendor/bootstrap.cyborg.min.css">
-  <link rel="stylesheet" href="bower_components/sweetalert/lib/sweet-alert.css">
-  <link rel="stylesheet" href="bower_components/videojs/dist/video-js/video-js.min.css">
-  <link rel="stylesheet" href="css/main.css">
+  <% for (var i = 0; i < css.length; i++) {%>
+    
+    <link rel="stylesheet" href="<%= css[i] %>">
+  <% } %>
   <script type="text/javascript">
     document.createElement('video');document.createElement('audio');document.createElement('track');
   </script>
