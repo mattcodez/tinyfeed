@@ -32,7 +32,8 @@
     "gulp-rename": "^1.2.0",
     "gulp-cache": "^0.2.4",
     "gulp-concat": "^2.4.1",
-    "gulp-ejs": "^1.0.0"
+    "gulp-ejs": "^1.0.0",
+    "gulp-run-sequence": "^0.3.2"
   },
   "scripts": {
     "test": "gulp test",

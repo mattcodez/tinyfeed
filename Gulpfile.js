@@ -12,7 +12,8 @@ var gulp = require('gulp'),
   notify = require('gulp-notify'),
   cache = require('gulp-cache'),
   ejs = require('gulp-ejs'),
-  del = require('del');
+  del = require('del'),
+  runSequence = require('gulp-run-sequence');
 
 var assets = require('./config/assets.js');
 
@@ -24,9 +25,9 @@ gulp.task('prodHTML', function(){
   return gulp.src('views/main.html')
     .pipe(ejs({
       siteName:'TinyFeed.ME',
-      css:['assets/css/build.min.css'],
-      js:['assets/js/build.min.js']}))
-    .pipe(gulp.dest('dist'));
+      css:['css/build.min.css'],
+      js:['js/build.min.js']}))
+    .pipe(gulp.dest('dist/views'));
 });
 
 gulp.task('copyDist', function(){
@@ -36,7 +37,6 @@ gulp.task('copyDist', function(){
       'public/img/*',
       'public/terms.html',
       'routes/*',
-      'views/*',
       'app.js',
       'package.json'], {base: '.'})
     .pipe(gulp.dest('dist'));
@@ -49,10 +49,9 @@ gulp.task('styles', function() {
       'public/css/main.css'])
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(concat('build.css'))
-    .pipe(gulp.dest('dist/assets/css'))
     .pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
-    .pipe(gulp.dest('dist/assets/css'));
+    .pipe(gulp.dest('dist/public/css'));
 });
 
 gulp.task('js', function() {
@@ -64,7 +63,11 @@ gulp.task('js', function() {
 		.pipe(concat('build.js'))
 		.pipe(uglify())
     .pipe(rename({suffix: '.min'}))
-		.pipe(gulp.dest('dist/assets/js'));
+		.pipe(gulp.dest('dist/public/js'));
+});
+
+gulp.task('build', function(cb){
+  runSequence('clean', ['prodHTML', 'copyDist', 'styles', 'js'], cb);
 });
 
 // Copy all static images
