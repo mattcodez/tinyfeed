@@ -16,12 +16,29 @@ var gulp = require('gulp'),
 
 var assets = require('./config/assets.js');
 
+gulp.task('clean', function(cb){
+  del('dist/*', cb);
+});
+
 gulp.task('prodHTML', function(){
   return gulp.src('views/main.html')
     .pipe(ejs({
-        siteName:'TinyFeed.ME',
-        css:['assets/css/build.min.css'],
-        js:['assets/js/build.min.js']}))
+      siteName:'TinyFeed.ME',
+      css:['assets/css/build.min.css'],
+      js:['assets/js/build.min.js']}))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('copyDist', function(){
+  return gulp.src([
+      'config/*',
+      'models/*',
+      'public/img/*',
+      'public/terms.html',
+      'routes/*',
+      'views/*',
+      'app.js',
+      'package.json'], {base: '.'})
     .pipe(gulp.dest('dist'));
 });
 
