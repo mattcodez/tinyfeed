@@ -19,16 +19,16 @@ app.io = io;
 app.locals.siteName = "tinyfeed";
 
 // Connect to database
-var db = require('./config/db');
+//var db = require('./config/db');
 app.use(express.static(__dirname + '/public'));
 
 app.use(multer({ dest: './uploads/'}));
 
 // Bootstrap models
-var modelsPath = path.join(__dirname, 'models');
+/*var modelsPath = path.join(__dirname, 'models');
 fs.readdirSync(modelsPath).forEach(function (file) {
   require(modelsPath + '/' + file);
-});
+});*/
 
 var env = process.env.NODE_ENV || 'development';
 var port = process.env.PORT || 3000;
@@ -71,9 +71,10 @@ app.use(bodyParser());
 
 // Bootstrap routes/api
 var routesPath = path.join(__dirname, 'routes');
-fs.readdirSync(routesPath).forEach(function(file) {
+/*fs.readdirSync(routesPath).forEach(function(file) {
   require(routesPath + '/' + file)(app);
-});
+});*/
+require(routesPath + '/index.js')(app);
 
 // Start server
 server.listen(port, function () {
