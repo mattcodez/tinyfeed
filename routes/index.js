@@ -110,9 +110,17 @@ module.exports = function(app) {
 	//Send the playing and next video name every second
 	function fileBroadcast(){
 		setInterval(function(){
-			var playingVid = vidList[vidIndex];
-			var nextVid = vidList[vidIndex + 1];
-			if (!nextVid) nextVid = vidList[0];
+			//It's possible that vidIndex is 1 beyond the actual vidList length before
+			//playFunc runs again to reset it
+			//Let's try to keep things simple and not modify vidIndex outside of playFunc
+
+			var playingVid = vidList[vidIndex] || vidList[0];
+			if (!vidList[vidIndex]){
+				var nextVid = vidList[1];
+			}
+			else {
+				nextVid = vidList[vidIndex + 1] || vidList[0];
+			}
 
 			io.emit('nextVid', [playingVid.file, nextVid.file]);
 		}, 1000);
