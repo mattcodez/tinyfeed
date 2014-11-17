@@ -16,6 +16,8 @@ var server = require('http').createServer(app);
 var io = socketio(server);
 app.io = io;
 
+//todo: io set log level 3
+
 app.locals.siteName = "tinyfeed";
 
 // Connect to database

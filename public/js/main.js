@@ -1,4 +1,4 @@
-var socket;
+var socket, videoDOM;
 $(document).ready(function() {
 	$('#videoFeed').css('max-height', ($(window).height() - $('#header').height()) + 'px');
 
@@ -8,25 +8,34 @@ $(document).ready(function() {
 
 	init();
 	initSocket();
+	videoDOM = $('#videoFeed');
 });
 
 var currentVid = null;
 var vidQueue = [];
 function initSocket(){
 	socket = io.connect();
-	var videoDOM = $('#videoFeed');
 
 	socket.on('nextVid', function(data){
-		//The same vid name is constantly coming through, don't add duplicates
-		if (vidQueue.indexOf(data) == -1 && data != currentVid){
-			vidQueue.push(data);
-
-			if (vidQueue.length == 1 && !videoDOM.paused){
-				//The queue was empty before we got here, try playing videos again
-				nextVid(videoDOM);
-			}
-		}
+		addVidToList(data[0]);
+		addVidToList(data[1]);
 	});
+}
+
+function addVidToList(vid){
+	if (!vid) return;
+
+	//The same vid name is constantly coming through, don't add duplicates
+	if (vidQueue.indexOf(vid) == -1 && vid != currentVid){
+		vidQueue.push(vid);
+		console.log('Add video');
+		console.log(vidQueue);
+
+		if (vidQueue.length == 1 && !videoDOM.paused){
+			//The queue was empty before we got here, try playing videos again
+			nextVid(videoDOM);
+		}
+	}
 }
 
 function init(){

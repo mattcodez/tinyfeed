@@ -107,12 +107,14 @@ module.exports = function(app) {
 		setTimeout(playFunc, vid.duration * 1000);
 	};
 
-	//Send the next video name every second
+	//Send the playing and next video name every second
 	function fileBroadcast(){
 		setInterval(function(){
+			var playingVid = vidList[vidIndex];
 			var nextVid = vidList[vidIndex + 1];
 			if (!nextVid) nextVid = vidList[0];
-			io.emit('nextVid', nextVid.file);
+
+			io.emit('nextVid', [playingVid.file, nextVid.file]);
 		}, 1000);
 	}
 };
