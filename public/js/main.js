@@ -28,11 +28,11 @@ function addVidToList(vid){
 
 	//The same vid name is constantly coming through, don't add duplicates
 	if (vidQueue.indexOf(vid) == -1 && vid != currentVid){
+		var queueWasEmpty = (vidQueue.length === 0);
 		vidQueue.push(vid);
-		console.log('Add video');
-		console.log(vidQueue);
 
-		if (vidQueue.length == 1 && !videoDOM.paused){
+		var noVidSet = (videoDOM.attr('src') === undefined || videoDOM.attr('src') === false);
+		if (queueWasEmpty && noVidSet) {
 			//The queue was empty before we got here, try playing videos again
 			nextVid(videoDOM);
 		}
@@ -129,7 +129,12 @@ function startVideos(videoDOM){
 function nextVid(videoDOM){
 	currentVid = vidQueue[0];
 	vidQueue.shift();
-	videoDOM.attr('src', 'video/' + currentVid);
+	if (currentVid){
+		videoDOM.attr('src', 'video/' + currentVid);
+	}
+	else {
+		videoDOM.removeAttr('src');
+	}
 }
 
 function getVideoFormData(files){
