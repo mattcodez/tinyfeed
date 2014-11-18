@@ -2,46 +2,52 @@
 <html>
 <head>
   <title><%= siteName %></title>
-  <% for (var i = 0; i < css.length; i++) {%>
-    
+  <% for (var i = 0; i < css.length; i++) { %>
     <link rel="stylesheet" href="<%= css[i] %>">
   <% } %>
   <script type="text/javascript">
-    document.createElement('video');document.createElement('audio');document.createElement('track');
+    /*document.createElement('video');document.createElement('audio');document.createElement('track');*/
   </script>
 </head>
 <body>
-  <div id="header" class="container-fluid">
-    <div class="row navbar-inverse">
-
-      <div class="col-md-4 col-xs-12 text-center">
-        <img src="img/tinyfeed.png" id="logo">
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand spotlight" href="#"><img class="img-responsive" src="img/tinyfeed.png" id="logo"></a>
       </div>
-
-      <div class="col-md-4 col-xs-12">
-        <div id="addVideo">
-          <form style="display:none;">
-            <input type="file" accept="video/*" capture="camera">
-          </form>
-          <button type="button" class="btn btn-block btn-default">Add Your Video!!</button>
-        </div>
-      </div>
-
-      <div class="col-md-4 col-xs-12">
-        <div class="dropdown">
-          <button class="btn btn-default btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-            About
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li id="aboutInfo" role="presentation"><a role="menuitem" tabindex="-1" href="#">About</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="terms.html">Terms of Service</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="mailto:info@tinyfeed.me">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a class="spotlight" href="#">Claim your spotlight!!</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a class="about-swal" href="#">What is tinyfeed?</a></li>
+              <li><a href="terms.html" target="_blank">Terms of Service</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">Contact Us</li>
+              <li><a href="mailto:info@tinyfeed.me">Email</a></li>
+              <li><a href="#">Leave Feedback - Coming soon!</a></li>
+              <li><a href="#">Report a Problem - Coming soon!</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!--/.nav-collapse -->
     </div>
+  </nav>
+
+  <div id="addSpotlight">
+    <form style="display:none;">
+      <input type="file" accept="video/*" capture="camera">
+    </form>
   </div>
 
   <div id="uploadProgress" class="container" style="display:none;">
@@ -55,12 +61,14 @@
     </div>
   </div>
 
-  <video id="videoFeed" class="video-js vjs-default-skin" autoplay preload="auto">
-    <p class="vjs-no-js">To enjoy watching tinyfeed, please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-  </video>
+  <!--<div class="embed-responsive embed-responsive-16by9">-->
+    <video id="videoFeed" autoplay preload="auto">
+      <!--<p class="vjs-no-js">To enjoy watching tinyfeed, please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>-->
+    </video>
+  <!--</div>-->
 
   <script src="/socket.io/socket.io.js"></script>
-  <% for (var i = 0; i < js.length; i++) {%>
+  <% for (var i = 0; i < js.length; i++) { %>
     <script src="<%= js[i] %>"></script>
   <% } %>
 

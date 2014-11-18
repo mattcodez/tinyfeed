@@ -1,3 +1,22 @@
+@media only screen and (min-width : 768px) {
+  /* Make Navigation Toggle on Desktop Hover */
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+.col-xs-2 {
+  background: blue;
+}
+
+.col-xs-5 {
+  background: red;
+}
+
+.col-xs-5 + .col-xs-5 {
+  background: yellow;
+}
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

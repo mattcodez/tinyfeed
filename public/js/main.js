@@ -1,9 +1,9 @@
 var socket, videoDOM;
 $(document).ready(function() {
-	$('#videoFeed').css('max-height', ($(window).height() - $('#header').height()) + 'px');
+	$('#videoFeed').css('max-height', ($(window).height() - $('.navbar').height()) + 'px');
 
 	$(window).on('resize', function() {
-		$('#videoFeed').css('max-height', ($(window).height() - $('#header').height()) + 'px');
+		$('#videoFeed').css('max-height', ($(window).height() - $('.navbar').height()) + 'px');
 	});
 
 	init();
@@ -13,6 +13,7 @@ $(document).ready(function() {
 
 var currentVid = null;
 var vidQueue = [];
+
 function initSocket(){
 	socket = io.connect();
 
@@ -39,13 +40,15 @@ function addVidToList(vid){
 }
 
 function init(){
-	var videoForm = $('#addVideo FORM');
-	var fileInput = $('#addVideo INPUT[type=file]');
+	var videoForm = $('#addSpotlight form');
+	var fileInput = $('#addSpotlight input[type=file]');
 
 	startVideos($('#videoFeed'));
 
 	//Trigger file selection from separate button
-	$('#addVideo BUTTON').on('click', function(){
+	$('.spotlight').click(function(e) {
+		e.preventDefault();
+
 		if (window.localStorage && window.localStorage.distNoticeConfirmed == "true"){
 			fileInput.click();
 			return;
@@ -62,14 +65,14 @@ function init(){
 			confirmButtonColor: "#DD6B55",
 			confirmButtonText: "Continue",
 			closeOnConfirm: true },
-			function(){
+			function() {
 				window.localStorage && (window.localStorage.distNoticeConfirmed = "true");
 				fileInput.click();
 			}
 		);
 	});
 
-	$('#aboutInfo').on('click', function(){
+	$('.about-swal').click(function() {
 		swal({
 			title: "About",
 			text: "At TinyFeed.me, the spotlight is on you! \
@@ -101,12 +104,12 @@ function init(){
 			type: 'POST',
 			success: function(data){},
 			xhr: function() {  // Custom XMLHttpRequest
-          var myXhr = $.ajaxSettings.xhr();
-          if(myXhr.upload){ // Check if upload property exists
-              myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
-          }
-          return myXhr;
-      }
+				var myXhr = $.ajaxSettings.xhr();
+				if(myXhr.upload){ // Check if upload property exists
+					myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+				}
+				return myXhr;
+			}
 		});
 	});
 }
