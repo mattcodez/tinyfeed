@@ -50,6 +50,7 @@ module.exports = function(app) {
 			var newFileName = newVideo.name.replace(/\.[^/.]+$/, "") + '.mp4';
 			var vid = ffmpeg(newVideo.path)
 				.videoCodec('libx264')
+				.videoBitrate('819k')
 				.audioCodec('aac')
 				.duration(10)
 				.format('mp4')
