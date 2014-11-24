@@ -5,13 +5,13 @@ var mongoose = require('mongoose'),
 		ObjectId = Schema.ObjectId;
 
 var fields = {
-	title: { type: String },
-	excerpt: { type: String },
-	content: { type: String },
-	active: { type: Boolean },
-	created: { type: Date , default: Date.now } 
+	email: { type: String },
+	displayName: { type: String },
+	password: { type: String },
+	active: { type: Boolean, default: true },
+	created: { type: Date , default: Date.now }
 };
 
-var postSchema = new Schema(fields);
+var schema = new Schema(fields);
 
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.model('User', schema);

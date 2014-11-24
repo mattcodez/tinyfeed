@@ -1,87 +1,76 @@
 module.exports = function(app) {
   // Module dependencies.
   var mongoose = require('mongoose'),
-      Post = mongoose.models.Post,
-      api = {};
-
-  // ALL
-  api.posts = function (req, res) {
-    Post.find(function(err, posts) {
-      if (err) {
-        res.json(500, err);
-      } else {    
-        res.json({posts: posts});
-      }
-    });
-  };
+      User = mongoose.models.User;
 
   // GET
-  api.post = function (req, res) {
-    var id = req.params.id;
-    Post.findOne({ '_id': id }, function(err, post) {
-      if (err) {
-        res.json(404, err);
-      } else {
-        res.json(200, {post: post});
+  app.get('/api/user/:id', function (req, res) {
+    Post.findById(
+      req.params.id,
+      'email displayName created',
+      function(err, user) {
+        if (err) {
+          res.json(404, err);
+        } else {
+          res.json(200, {user:user});
+        }
       }
-    });
-  };
+    );
+  });
 
   // POST
-  api.addPost = function (req, res) {
-    
-    var post;
-      
-    if(typeof req.body.post == 'undefined'){
-      return res.json(500, {message: 'post is undefined'});
+  app.post('/api/user', function (req, res) {
+
+    var user;
+
+    if(typeof req.body.user == 'undefined'){
+      return res.json(500, {message: 'user is undefined'});
     }
 
-    post = new Post(req.body.post);
+    user = new User(req.body.user);
 
-    post.save(function (err) {
+    user.save(function (err) {
       if (!err) {
-        console.log("created post");
-        return res.json(201, post.toObject());
+        console.log("created User");
+        return res.json(201, user.toObject());
       } else {
          return res.json(500, err);
       }
     });
 
-  };
+  });
 
   // PUT
-  api.editPost = function (req, res) {
+  app.put('/api/user/:id', function (req, res) {
     var id = req.params.id;
 
-    Post.findById(id, function (err, post) {
+    User.findById(id, function (err, post) {
 
-
-    
       if(typeof req.body.post["title"] != 'undefined'){
         post["title"] = req.body.post["title"];
-      }  
-    
+      }
+
       if(typeof req.body.post["excerpt"] != 'undefined'){
         post["excerpt"] = req.body.post["excerpt"];
-      }  
-    
+      }
+
       if(typeof req.body.post["content"] != 'undefined'){
         post["content"] = req.body.post["content"];
-      }  
-    
+      }
+
       if(typeof req.body.post["active"] != 'undefined'){
         post["active"] = req.body.post["active"];
-      }  
-    
+      }
+
       if(typeof req.body.post["created"] != 'undefined'){
         post["created"] = req.body.post["created"];
-      }  
-    
+      }
+
 
       return post.save(function (err) {
         if (!err) {
           console.log("updated post");
-          return res.json(200, post.toObject());        
+          return res.json(200, post.toObject());
         } else {
          return res.json(500, err);
         }
@@ -89,29 +78,5 @@ module.exports = function(app) {
       });
     });
 
-  };
-
-  // DELETE
-  api.deletePost = function (req, res) {
-    var id = req.params.id;
-    Post.findById(id, function (err, post) {
-      return post.remove(function (err) {
-        if (!err) {
-          console.log("removed post");
-          return res.send(204);
-        } else {
-          console.log(err);
-          return res.json(500, err);
-        }
-      });
-    });
-
-  };
-
-
-  app.get('/api/posts', api.posts);
-  app.get('/api/post/:id', api.post);
-  app.post('/api/post', api.addPost);
-  app.put('/api/post/:id', api.editPost);
-  app.delete('/api/post/:id', api.deletePost);
+  });
 };
