@@ -9,7 +9,9 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     errorhandler = require('errorhandler'),
     multer  = require('multer'),
-    socketio = require('socket.io');
+    socketio = require('socket.io'),
+    session = require('express-session'),
+    passport = require('passport');
 
 var app = module.exports = exports.app = express();
 var server = require('http').createServer(app);
@@ -70,6 +72,10 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(methodOverride());
 app.use(bodyParser());
+
+app.use(express.session({ secret: 'ji4(3.0Ul!' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Bootstrap routes/api
 var routesPath = path.join(__dirname, 'routes');

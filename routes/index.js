@@ -1,5 +1,7 @@
-var ffmpeg = require('fluent-ffmpeg');
-var fs = require('fs');
+var ffmpeg = require('fluent-ffmpeg'),;
+		fs = require('fs'),
+		passport = require('passport'),
+		LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function(app) {
 	var route = {};
@@ -28,6 +30,21 @@ module.exports = function(app) {
 		}.bind(null, vid, i));
 	}
 
+	passport.use(new LocalStrategy(
+	  function(username, password, done) {
+	    User.findOne({ username: username }, function (err, user) {
+	      if (err) { return done(err); }
+	      if (!user) {
+	        return done(null, false, { message: 'Incorrect username.' });
+	      }
+	      if (!user.validPassword(password)) {
+	        return done(null, false, { message: 'Incorrect password.' });
+	      }
+	      return done(null, user);
+	    });
+	  }
+	));
+
 	// index.html
 	route.index = function (req, res) {
 	  res.render('index', {locals: { routes: app._router.stack }});
@@ -41,6 +58,12 @@ module.exports = function(app) {
 		else{
 			res.render('main');
 		}
+	};
+
+	route.login = function(req, res){
+		passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login',
+                                   failureFlash: true });
 	};
 
 	route.upload = function(req, res){
@@ -77,6 +100,7 @@ module.exports = function(app) {
 	  console.log('socket connected');
 	});
 
+	app.post('/login', route.login);
 	app.post('/upload', route.upload);
 	app.get('/routemap', route.index);
 	app.get('/', route.main);
