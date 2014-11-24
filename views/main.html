@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= siteName %></title>
   <% for (var i = 0; i < css.length; i++) { %>
     <link rel="stylesheet" href="<%= css[i] %>">
@@ -58,7 +59,7 @@
   </div>
 
   <!--<div class="embed-responsive embed-responsive-16by9">-->
-    <video id="videoFeed" class="embed-responsive-item" autoplay preload="auto">
+    <video id="videoFeed" autoplay controls preload="auto">
       <!--<p class="vjs-no-js">To enjoy watching tinyfeed, please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>-->
     </video>
   <!--</div>-->
