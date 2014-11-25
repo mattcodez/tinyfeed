@@ -61,9 +61,7 @@ module.exports = function(app) {
 	};
 
 	route.login = function(req, res){
-		passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/login',
-                                   failureFlash: true });
+		passport.authenticate('local', { failureFlash: true });
 	};
 
 	route.upload = function(req, res){
