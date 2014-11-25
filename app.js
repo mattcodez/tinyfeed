@@ -73,7 +73,7 @@ app.set('view engine', 'html');
 app.use(methodOverride());
 app.use(bodyParser());
 
-app.use(express.session({ secret: 'ji4(3.0Ul!' }));
+app.use(session({ secret: 'ji4(3.0Ul!' }));
 app.use(passport.initialize());
 app.use(passport.session());
 

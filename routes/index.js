@@ -1,4 +1,4 @@
-var ffmpeg = require('fluent-ffmpeg'),;
+var ffmpeg = require('fluent-ffmpeg'),
 		fs = require('fs'),
 		passport = require('passport'),
 		LocalStrategy = require('passport-local').Strategy;
