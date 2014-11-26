@@ -40,6 +40,13 @@ function addVidToList(vid){
 }
 
 function init(){
+	var modalShim = $('#modalShim');
+	var loginForm = $('#loginForm');
+	$('a.login').on('click', function(e){
+		modalShim.show();
+		loginForm.slideDown(800);
+	});
+
 	var videoForm = $('#addSpotlight form');
 	var fileInput = $('#addSpotlight input[type=file]');
 
