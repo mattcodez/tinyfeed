@@ -45,6 +45,45 @@ function init(){
 	$('a.login').on('click', function(e){
 		modalShim.show();
 		loginForm.slideDown(800);
+
+		loginForm
+			.find('.passConfirm').hide()
+				.find('INPUT').prop('disabled', true);
+	});
+
+	$('a.signup').on('click', function(e){
+		modalShim.show();
+		loginForm.slideDown(800);
+
+		loginForm
+			.find('.passConfirm').show()
+				.find('INPUT').prop('disabled', false);
+
+		loginForm
+			.find('BUTTON[type=submit]').on('click', function(e){
+				e.preventDefault();
+
+				//...ensure passwords match before submit
+
+				$.post(
+					'/login',
+					{
+						username: $('#userLoginName').val(),
+						password:  $('#userPassword').val()
+					},
+					function(data){
+						if (data.errMsg){
+							//... show data.errMsg
+						}
+						else { //Success!
+							//... set user UI profile (e.g. name in header, etc.)
+							//... close signup modal
+						}
+					}
+				);
+
+				return false;
+			});
 	});
 
 	var videoForm = $('#addSpotlight form');
