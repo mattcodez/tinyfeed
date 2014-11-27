@@ -1,5 +1,6 @@
 var ffmpeg = require('fluent-ffmpeg');
 var fs = require('fs');
+var _ = require('lodash');
 
 module.exports = function(app) {
 	var route = {};
@@ -81,6 +82,19 @@ module.exports = function(app) {
 	app.get('/routemap', route.index);
 	app.get('/', route.main);
 
+	app.get('/video/*', function(req,res,next){
+		//Use this to check and see if a video is missing
+
+		//We only get here if express.static couldn't find it
+		//if (req.path.match(/^\/video\//)){
+		var missingVid = req.path.substr(req.path.lastIndexOf('/') + 1);
+		if (missingVid){ //sanity check
+			removeVidFromList(missingVid);
+		}
+
+		next();
+	});
+
 	function addVidToList(vid, err, data) {
 		if (err){
 			console.log('FFPROBE error: ' + vid);
@@ -92,6 +106,17 @@ module.exports = function(app) {
 				duration: duration
 			});
 			console.log('Logging video ' + vid + ' with length ' + duration);
+		}
+	}
+
+	function removeVidFromList(vid){
+		var removed = _.remove(
+			vidList,
+			function(obj){if (obj.file === vid) return true;}
+		);
+
+		if (removed.length > 0){
+			console.log('Removed from list: ' + vid);
 		}
 	}
 
