@@ -64,23 +64,30 @@ function init(){
 				e.preventDefault();
 
 				//...ensure passwords match before submit
-
-				$.post(
-					'/login',
-					{
-						username: $('#userLoginName').val(),
-						password:  $('#userPassword').val()
-					},
-					function(data){
-						if (data.errMsg){
-							//... show data.errMsg
+				if($('#userPassword').val() !== $('#userPasswordConfirm').val()){
+					loginForm.find('.msg')
+						.text('Passwords do not match')
+						.show();
+				}
+				else {
+					$.post(
+						'/login',
+						{
+							username: $('#userLoginName').val(),
+							password:  $('#userPassword').val()
+						},
+						function(data){
+							if (data.errMsg){
+								//Use for application level messages like passwords don't match
+								//... show data.errMsg
+							}
+							else { //Success!
+								//... set user UI profile (e.g. name in header, etc.)
+								//... close signup modal
+							}
 						}
-						else { //Success!
-							//... set user UI profile (e.g. name in header, etc.)
-							//... close signup modal
-						}
-					}
-				);
+					);
+				}
 
 				return false;
 			});
