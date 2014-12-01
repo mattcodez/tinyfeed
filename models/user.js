@@ -6,9 +6,10 @@ var mongoose = require('mongoose'),
 		ObjectId = Schema.ObjectId;
 
 var fields = {
-	email: { type: String },
+	//e-mail right now is effectively their username for logging in
+	email: { type: String, required:true, unique:true, lowercase:true, trim:true },
 	displayName: { type: String },
-	password: { type: String },
+	password: { type: String, select:false },
 	active: { type: Boolean, default: true },
 	created: { type: Date , default: Date.now }
 };

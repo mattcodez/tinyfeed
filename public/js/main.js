@@ -62,10 +62,13 @@ function init(){
 		loginForm
 			.find('BUTTON[type=submit]').on('click', function(e){
 				e.preventDefault();
+				var msgBox = loginForm.find('.msg');
+				msgBox.text('').hide();
 
-				//...ensure passwords match before submit
+				//...add handlers for a close button for dialog
+
 				if($('#userPassword').val() !== $('#userPasswordConfirm').val()){
-					loginForm.find('.msg')
+					msgBox
 						.text('Passwords do not match')
 						.show();
 				}
@@ -79,11 +82,14 @@ function init(){
 						function(data){
 							if (data.errMsg){
 								//Use for application level messages like passwords don't match
-								//... show data.errMsg
+								msgBox
+									.text(data.errMsg)
+									.slideDown();
 							}
 							else { //Success!
-								//... set user UI profile (e.g. name in header, etc.)
-								//... close signup modal
+								$('#navbar .username').text(data.user.email)
+								loginForm.slideUp();
+								modalShim.hide();
 							}
 						}
 					);
