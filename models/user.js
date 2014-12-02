@@ -16,14 +16,15 @@ var fields = {
 
 var schema = new Schema(fields);
 
-schema.pre('save', function(next){
+schema.pre('save', function(next, done){
 	var user = this;
 	if (!user.isModified('password')) return next();
 
+	next();
 	bcrypt.hash(user.password, null, null, function(err, hash) {
-	    if (err) return next(err);
+	    if (err) return done(err);
 			user.password = hash;
-			next();
+			done();
 	});
 });
 

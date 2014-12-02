@@ -24,7 +24,7 @@ module.exports = function(app) {
     var user;
 
     if(typeof req.body.user == 'undefined'){
-      return res.status(500).json({message: 'user is undefined'});
+      return res.status(500).json({errMsg: 'user is undefined'});
     }
 
     user = new User(req.body.user);
@@ -34,7 +34,8 @@ module.exports = function(app) {
         console.log("created User");
         return res.status(201).json(user.toObject());
       } else {
-         return res.status(500).json(err);
+        console.log(err);
+        return res.status(500).json({errMsg:'There was an error creating your account'});
       }
     });
 

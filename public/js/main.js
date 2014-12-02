@@ -79,7 +79,7 @@ function init(){
 						data: JSON.stringify(
 								{
 									user:{
-										username: $('#userLoginName').val(),
+										email: $('#userLoginName').val(),
 										password:  $('#userPassword').val()
 									}
 								}
