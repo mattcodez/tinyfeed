@@ -73,13 +73,18 @@ function init(){
 						.show();
 				}
 				else {
-					$.post(
-						'/login',
-						{
-							username: $('#userLoginName').val(),
-							password:  $('#userPassword').val()
-						},
-						function(data){
+					$.ajax('api/user',{
+						contentType : 'application/json',
+						type: 'POST',
+						data: JSON.stringify(
+								{
+									user:{
+										username: $('#userLoginName').val(),
+										password:  $('#userPassword').val()
+									}
+								}
+							),
+						success: function(data){
 							if (data.errMsg){
 								//Use for application level messages like passwords don't match
 								msgBox
@@ -92,7 +97,7 @@ function init(){
 								modalShim.hide();
 							}
 						}
-					);
+					});
 				}
 
 				return false;

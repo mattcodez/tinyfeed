@@ -24,7 +24,7 @@ module.exports = function(app) {
     var user;
 
     if(typeof req.body.user == 'undefined'){
-      return res.json(500, {message: 'user is undefined'});
+      return res.status(500).json({message: 'user is undefined'});
     }
 
     user = new User(req.body.user);
@@ -32,9 +32,9 @@ module.exports = function(app) {
     user.save(function (err) {
       if (!err) {
         console.log("created User");
-        return res.json(201, user.toObject());
+        return res.status(201).json(user.toObject());
       } else {
-         return res.json(500, err);
+         return res.status(500).json(err);
       }
     });
 
