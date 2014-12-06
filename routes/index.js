@@ -1,7 +1,9 @@
 var ffmpeg = require('fluent-ffmpeg'),
 		fs = require('fs'),
 		passport = require('passport'),
-		LocalStrategy = require('passport-local').Strategy;
+		LocalStrategy = require('passport-local').Strategy,
+		mongoose = require('mongoose'),
+		User = mongoose.models.User;
 
 module.exports = function(app) {
 	var route = {};
@@ -30,9 +32,19 @@ module.exports = function(app) {
 		}.bind(null, vid, i));
 	}
 
+	passport.serializeUser(function(user, done) {
+	  done(null, user.id);
+	});
+
+	passport.deserializeUser(function(id, done) {
+	  User.findById(id, function (err, user) {
+	    done(err, user);
+	  });
+	});
+
 	passport.use(new LocalStrategy(
 	  function(username, password, done) {
-	    User.findOne({ username: username }, function (err, user) {
+	    User.findOne({ email: username }, function (err, user) {
 	      if (err) { return done(err); }
 	      if (!user) {
 	        return done(null, false, { message: 'Incorrect username.' });
@@ -60,8 +72,18 @@ module.exports = function(app) {
 		}
 	};
 
-	route.login = function(req, res){
-		passport.authenticate('local', { failureFlash: true });
+	route.login = function(req, res, next){
+		passport.authenticate('local', function(err, user, info) {
+	    if (err) { return next(err) }
+	    if (!user) {
+	      req.session.messages =  [info.message];
+	      return res.redirect('/login')
+	    }
+	    req.logIn(user, function(err) {
+	      if (err) { return next(err); }
+	      return res.redirect('/');
+	    });
+	  })(req, res, next);
 	};
 
 	route.upload = function(req, res){

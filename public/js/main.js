@@ -42,6 +42,7 @@ function addVidToList(vid){
 function init(){
 	var modalShim = $('#modalShim');
 	var loginForm = $('#loginForm');
+
 	$('a.login').on('click', function(e){
 		modalShim.show();
 		loginForm.slideDown(800);
@@ -49,6 +50,23 @@ function init(){
 		loginForm
 			.find('.passConfirm').hide()
 				.find('INPUT').prop('disabled', true);
+
+		loginForm.find('BUTTON[type=submit]').off().on('click', function(e){
+			e.preventDefault();
+
+			var data = {
+				username: $('#userLoginName').val(),
+				password: $('#userPassword').val()
+			};
+
+			$.post('/login', data, function(data){
+				$('#navbar .username').text(data.user.email);
+				loginForm.slideUp();
+				modalShim.hide();
+			});
+
+			return false;
+		});
 	});
 
 	$('a.signup').on('click', function(e){
@@ -60,7 +78,7 @@ function init(){
 				.find('INPUT').prop('disabled', false);
 
 		loginForm
-			.find('BUTTON[type=submit]').on('click', function(e){
+			.find('BUTTON[type=submit]').off().on('click', function(e){
 				e.preventDefault();
 				var msgBox = loginForm.find('.msg');
 				msgBox.text('').hide();
