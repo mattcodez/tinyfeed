@@ -23,7 +23,7 @@ app.io = io;
 app.locals.siteName = "tinyfeed";
 
 // Connect to database
-//var db = require('./config/db');
+var db = require('./config/db');
 app.use(express.static(__dirname + '/public'));
 
 app.use(multer({ dest: './uploads/'}));

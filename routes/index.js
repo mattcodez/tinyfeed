@@ -43,7 +43,7 @@ module.exports = function(app) {
 	});
 
 	passport.use(new LocalStrategy(
-	  function(username, password, done) {
+	  function(username, password, done) { //FIXME... current issue is that findOne's callback below never fires
 	    User.findOne({ email: username }, function (err, user) {
 	      if (err) { return done(err); }
 	      if (!user) {
@@ -56,11 +56,6 @@ module.exports = function(app) {
 	    });
 	  }
 	));
-
-	// index.html
-	route.index = function (req, res) {
-	  res.render('index', {locals: { routes: app._router.stack }});
-	};
 
 	route.main = function(req, res){
 		if (app.get('env') == 'development'){
@@ -79,6 +74,7 @@ module.exports = function(app) {
 	      req.session.messages =  [info.message];
 	      return res.redirect('/login')
 	    }
+
 	    req.logIn(user, function(err) {
 	      if (err) { return next(err); }
 	      return res.redirect('/');
@@ -122,7 +118,6 @@ module.exports = function(app) {
 
 	app.post('/login', route.login);
 	app.post('/upload', route.upload);
-	app.get('/routemap', route.index);
 	app.get('/', route.main);
 
 	function addVidToList(vid, err, data) {
