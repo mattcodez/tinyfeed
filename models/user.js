@@ -23,7 +23,7 @@ var fields = {
 
 var schema = new Schema(fields);
 
-schema.pre('save', function(next, done){
+schema.pre('save', true, function(next, done){
 	var user = this;
 	if (!user.isModified('password')) return next();
 
