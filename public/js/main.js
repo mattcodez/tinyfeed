@@ -40,80 +40,75 @@ function addVidToList(vid){
 }
 
 function init(){
-	var modalShim = $('#modalShim');
-	var loginForm = $('#loginForm');
+	var loginModal = $('#loginSignup');
+	var loginSubmit = loginModal.find('[type="submit"]');
 
 	$('a.login').on('click', function(e){
-		modalShim.show();
-		loginForm.slideDown(800);
+		loginModal
+			.find('.password-confirm').hide()
+			.find('input').prop('disabled', true);
 
-		loginForm
-			.find('.passConfirm').hide()
-				.find('INPUT').prop('disabled', true);
+		loginSubmit
+			.text('Login')
+			.off()
+			.on('click', function(e){
+				e.preventDefault();
 
-		loginForm.find('BUTTON[type=submit]').off().on('click', function(e){
-			e.preventDefault();
+				var data = {
+					username: $('#email').val(),
+					password: $('#password').val()
+				};
 
-			var data = {
-				username: $('#userLoginName').val(),
-				password: $('#userPassword').val()
-			};
+				$.post('/login', data, function(data){
+					// TODO - Handle failed login; show message, don't hide modal
+					$('#navbar .username').text(data.user.email);
+					loginModal.modal('hide');
+				});
 
-			$.post('/login', data, function(data){
-				$('#navbar .username').text(data.user.email);
-				loginForm.slideUp();
-				modalShim.hide();
+				return false;
 			});
-
-			return false;
-		});
 	});
 
 	$('a.signup').on('click', function(e){
-		modalShim.show();
-		loginForm.slideDown(800);
+		loginModal
+			.find('.password-confirm').show()
+			.find('input').prop('disabled', false);
 
-		loginForm
-			.find('.passConfirm').show()
-				.find('INPUT').prop('disabled', false);
-
-		loginForm
-			.find('BUTTON[type=submit]').off().on('click', function(e){
+		loginSubmit
+			.text('Signup')
+			.off()
+			.on('click', function(e){
 				e.preventDefault();
-				var msgBox = loginForm.find('.msg');
+				var msgBox = loginModal.find('.msg');
 				msgBox.text('').hide();
 
-				//...add handlers for a close button for dialog
-
-				if($('#userPassword').val() !== $('#userPasswordConfirm').val()){
+				if($('#password').val() !== $('#passwordConfirm').val()){
 					msgBox
-						.text('Passwords do not match')
-						.show();
-				}
-				else {
+						.text('Password does not match')
+						.slideDown();
+				} else {
 					$.ajax('api/user',{
 						contentType : 'application/json',
 						type: 'POST',
 						data: JSON.stringify(
 								{
 									user:{
-										email: $('#userLoginName').val(),
-										password:  $('#userPassword').val()
+										email: $('#email').val(),
+										password: $('#password').val()
 									}
 								}
-							),
-						success: function(data){
-							if (data.errMsg){
-								//Use for application level messages like passwords don't match
-								msgBox
-									.text(data.errMsg)
-									.slideDown();
-							}
-							else { //Success!
-								$('#navbar .username').text(data.user.email)
-								loginForm.slideUp();
-								modalShim.hide();
-							}
+							)
+					}).done(function (data){
+						if (data.errMsg){
+							//Use for application level messages like passwords don't match
+							// TODO - This doesn't happen because validation errors return 500
+							msgBox
+								.text(data.errMsg)
+								.slideDown();
+						}
+						else { //Success!
+							$('#navbar .username').text(data.user.email)
+							loginModal.modal('hide');
 						}
 					});
 				}
@@ -133,37 +128,14 @@ function init(){
 
 		if (window.localStorage && window.localStorage.distNoticeConfirmed == "true"){
 			fileInput.click();
-			return;
+		} else {
+			$('#notice').modal('show');
 		}
-
-		swal({
-			title: "Notice",
-			text: "Uploading your video permits TinyFeed.me to distribute your \
-				work (the video). You still retain all copyrights to your work. \
-				You also agree not to upload content that you do not own copyright on \
-				nor anything sexually explicit.",
-			type: "info",
-			showCancelButton: true,
-			confirmButtonColor: "#DD6B55",
-			confirmButtonText: "Continue",
-			closeOnConfirm: true },
-			function() {
-				window.localStorage && (window.localStorage.distNoticeConfirmed = "true");
-				fileInput.click();
-			}
-		);
 	});
-
-	$('.about-swal').click(function() {
-		swal({
-			title: "About",
-			text: "At TinyFeed.me, the spotlight is on you! \
-				When you upload a video to TinyFeed.me, we add it to our playlist. \
-				Once the videos ahead of yours have played, yours will play. \
-				For 10 seconds, your creation will be the only thing everyone \
-				sees on our site! So get imaginative, stand-out and make your \
-				voice heard!"
-		});
+	$('#notice .agree').click(function() {
+		$('#notice').modal('hide');
+		window.localStorage && (window.localStorage.distNoticeConfirmed = "true");
+		fileInput.click();
 	});
 
 	//Submit form when file is selected

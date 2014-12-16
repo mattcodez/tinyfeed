@@ -9,7 +9,9 @@ var fields = {
 	//email right now is effectively their username for logging in
 	email:				{ type: String, select: false, required: true, unique: true, lowercase: true, trim: true },
 	password:			{ type: String, select: false, required: true, trim: true },
-	displayName:	{ type: String, default: 'Your name here', required: true, trim: true },
+	displayName:		{ type: String, default: 'Your name here', required: true, trim: true },
+						// TODO - Can displayName be unique and default to null?
+						// http://docs.mongodb.org/manual/tutorial/create-a-unique-index/
 	active:				{ type: Boolean, default: true },
 	created:			{ type: Date, default: Date.now },
 	uploads: {

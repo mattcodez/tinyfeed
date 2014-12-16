@@ -32,9 +32,9 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a class="about-swal" href="#">What is tinyfeed?</a></li>
-              <li><a class="login" href="#">Login</a></li>
-              <li><a class="signup" href="#">Sign-up</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#about">What is tinyfeed?</a></li>
+              <li><a class="login" href="#" data-toggle="modal" data-target="#loginSignup">Login</a></li>
+              <li><a class="signup" href="#" data-toggle="modal" data-target="#loginSignup">Signup</a></li>
               <li><a href="terms.html" target="_blank">Terms of Service</a></li>
               <li class="divider"></li>
               <li class="dropdown-header">Contact Us</li>
@@ -47,34 +47,6 @@
       </div><!--/.nav-collapse -->
     </div>
   </nav>
-
-  <div id="modalShim" style="display:none;"></div>
-  <div id="loginForm" style="display:none;">
-    <div class="col-xs-0 col-sm-1 col-md-4"></div>
-
-    <form class="col-xs-12 col-sm-10 col-md-4">
-      <div class="form-group">
-        <label for="userLoginName">Email address</label>
-        <input type="email" class="form-control" id="userLoginName" placeholder="E-mail address">
-      </div>
-      <div class="form-group">
-        <label for="userPassword">Password</label>
-        <input type="password" class="form-control" id="userPassword" placeholder="Password">
-      </div>
-
-      <div class="passConfirm form-group" style="display:none;">
-        <label for="userPasswordConfirm">Confirm Password</label>
-        <input type="password" class="form-control" id="userPasswordConfirm"
-          placeholder="Confirm password" disabled />
-      </div>
-
-      <button type="submit" class="btn btn-block btn-default">Login</button>
-    </form>
-
-    <div class="col-xs-0 col-sm-1 col-md-4"></div>
-
-    <p class="msg" style="display:none;"></p>
-  </div>
 
   <div id="addSpotlight">
     <form style="display:none;">
@@ -89,13 +61,74 @@
     </div>
   </div>
 
-  <!--<div class="embed-responsive embed-responsive-16by9">-->
-    <video id="videoFeed" autoplay controls preload="auto">
-      <!--<p class="vjs-no-js">To enjoy watching tinyfeed, please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>-->
-    </video>
-  <!--</div>-->
+  <video id="videoFeed" autoplay controls preload="auto"></video>
+
+  <div id="about" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="about" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">What is tinyfeed?</h4>
+        </div>
+        <div class="modal-body">
+          At tinyfeed, <strong>the spotlight is on you!</strong><br><br>
+          When you upload a video to tinyfeed, we add it to our playlist. Once the videos ahead of yours have played, yours will play. For 10 seconds, your creation will be the only thing everyone sees on our site! So get imaginative, stand out, and make your voice heard!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">I got it!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loginSignup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Login</h4>
+        </div>
+        <div class="modal-body">
+          <form id="login-form">
+            <label><span class="control-label">Email</span></label>
+            <input type="email" class="form-control" id="email" placeholder="Email">
+            <label><span class="control-label">Password</span></label>
+            <input type="password" class="form-control" id="password" placeholder="Password">
+            <div class="password-confirm">
+              <label><span class="control-label">Confirm Password</span></label>
+              <input type="password" class="form-control" id="passwordConfirm" placeholder="Password">
+            </div>
+          </form>
+          <p class="msg" style="display:none;"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" form="login-form" class="btn btn-success" data-dismiss="modal">Login</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notice" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="notice" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Notice</h4>
+        </div>
+        <div class="modal-body">
+          Uploading your video permits tinyfeed to distribute your work (the video). You still retain all copyrights to your work. You also agree not to upload content that you do not own copyright on nor anything sexually explicit.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success agree">Agreed!</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">No thanks.</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="/socket.io/socket.io.js"></script>
+
   <% for (var i = 0; i < js.length; i++) { %>
     <script src="<%= js[i] %>"></script>
   <% } %>
