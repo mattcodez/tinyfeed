@@ -32,10 +32,18 @@ module.exports = function(app) {
     user.save(function (err) {
       if (!err) {
         console.log("created User");
-        return res.status(201).json(user.toObject());
+        delete user.password;
+
+        return res.status(201).json({user:user});
       } else {
         console.log(err);
-        return res.status(500).json({errMsg:'There was an error creating your account'});
+        if (err.code == 11000){
+          var errMsg = 'That e-mail is already in use';
+        }
+        else {
+          errMsg = 'There was an error creating your account';
+        }
+        return res.status(500).json({errMsg:errMsg});
       }
     });
 

@@ -99,16 +99,15 @@ function init(){
 								}
 							)
 					}).done(function (data){
+						//Success!
+						$('#navbar .username').text(data.user.displayName);
+						loginModal.modal('hide');
+					}).fail(function(xhr){
+						var data = JSON.parse(xhr.responseText);
 						if (data.errMsg){
-							//Use for application level messages like passwords don't match
-							// TODO - This doesn't happen because validation errors return 500
 							msgBox
 								.text(data.errMsg)
 								.slideDown();
-						}
-						else { //Success!
-							$('#navbar .username').text(data.user.email)
-							loginModal.modal('hide');
 						}
 					});
 				}
