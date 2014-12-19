@@ -55,6 +55,7 @@ module.exports = function(app) {
 				.audioCodec('aac')
 				.duration(10)
 				.format('mp4')
+				.outputOptions('-pix_fmt yuv420p')
 				.on('start', function(commandLine) {
     			console.log('Spawned Ffmpeg with command: ' + commandLine);
   			})
