@@ -44,7 +44,7 @@ module.exports = function(app) {
 
 	passport.use(new LocalStrategy(
 	  function(username, password, done) { //FIXME... current issue is that findOne's callback below never fires
-	    User.findOne({ email: username }, function (err, user) {
+	    User.findOne({ email: username }, 'email password', function (err, user) {
 	      if (err) { return done(err); }
 	      if (!user) {
 	        return done(null, false, { message: 'Incorrect username.' });
@@ -75,10 +75,7 @@ module.exports = function(app) {
 	      return res.redirect('/login')
 	    }
 
-	    req.logIn(user, function(err) {
-	      if (err) { return next(err); }
-	      return res.redirect('/');
-	    });
+	    res.json({user:{email:user.email}});
 	  })(req, res, next);
 	};
 
