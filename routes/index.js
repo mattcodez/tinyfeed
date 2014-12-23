@@ -43,8 +43,8 @@ module.exports = function(app) {
 	});
 
 	passport.use(new LocalStrategy(
-	  function(username, password, done) { //FIXME... current issue is that findOne's callback below never fires
-	    User.findOne({ email: username }, 'email password', function (err, user) {
+	  function(username, password, done) {
+	    User.findOne({ email: username }, 'email password displayName uploads metrics', function (err, user) {
 	      if (err) { return done(err); }
 	      if (!user) {
 	        return done(null, false, { message: 'Incorrect username.' });
@@ -69,13 +69,20 @@ module.exports = function(app) {
 
 	route.login = function(req, res, next){
 		passport.authenticate('local', function(err, user, info) {
-	    if (err) { return next(err) }
+	    if (err) { return next(err); }
 	    if (!user) {
-	      req.session.messages =  [info.message];
-	      return res.redirect('/login')
+	      return res.json({errMsg:info.message});
 	    }
 
-	    res.json({user:{email:user.email}});
+	    //I prefer to explicitly build the field list being sent to the client
+			//so that no critical fields get sent by mistake. For example, the
+			//password field is in `user` because we needed to have it to verify login.
+			res.json({user:{
+				email:  		 user.email,
+				displayName: user.displayName,
+				uploads:  	 user.uploads,
+				metrics: 		 user.metrics
+			}});
 	  })(req, res, next);
 	};
 

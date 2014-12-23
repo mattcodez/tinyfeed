@@ -42,11 +42,14 @@ function addVidToList(vid){
 function init(){
 	var loginModal = $('#loginSignup');
 	var loginSubmit = loginModal.find('[type="submit"]');
+	var loginMsg = loginModal.find('.msg');
 
 	$('a.login').on('click', function(e){
 		loginModal
 			.find('.password-confirm').hide()
 			.find('input').prop('disabled', true);
+
+		loginMsg.text('').hide();
 
 		loginSubmit
 			.text('Login')
@@ -60,9 +63,15 @@ function init(){
 				};
 
 				$.post('/login', data, function(data){
-					// TODO - Handle failed login; show message, don't hide modal
-					$('#navbar .username').text(data.user.email);
-					loginModal.modal('hide');
+					if (data.errMsg){
+						loginMsg
+							.text(data.errMsg)
+							.show();
+					}
+					else {
+						$('#navbar .username').text(data.user.email);
+						loginModal.modal('hide');
+					}
 				});
 
 				return false;
