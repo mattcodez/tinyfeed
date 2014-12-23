@@ -17,7 +17,8 @@
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "express-session": "^1.9.2",
-    "bcrypt-nodejs": "0.0.3"
+    "bcrypt-nodejs": "0.0.3",
+    "connect-mongo": "^0.4.2"
   },
   "devDependencies": {
     "gulp": "latest",

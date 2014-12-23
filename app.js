@@ -11,7 +11,8 @@ var express = require('express'),
     multer  = require('multer'),
     socketio = require('socket.io'),
     session = require('express-session'),
-    passport = require('passport');
+    passport = require('passport'),
+    MongoStore = require('connect-mongo')(session);
 
 var app = module.exports = exports.app = express();
 var server = require('http').createServer(app);
@@ -73,7 +74,12 @@ app.set('view engine', 'html');
 app.use(methodOverride());
 app.use(bodyParser());
 
-app.use(session({ secret: 'ji4(3.0Ul!' }));
+app.use(session({
+  secret: 'ji4(3.0Ul!',
+  store: new MongoStore({
+    db: db.mongoose.connection.db
+  })
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
