@@ -41,4 +41,9 @@ schema.methods.validPassword = function(password){
 	return bcrypt.compareSync(password, this.password);
 };
 
+schema.methods.addVid = function(baseName){
+	this.uploads.videos.addToSet(baseName);
+	this.save();
+}
+
 module.exports = mongoose.model('User', schema);

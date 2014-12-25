@@ -19,6 +19,10 @@ module.exports = function(app) {
 	//Build vid list
 	for (var i = 0; i < vidFiles.length; i++){
 		var vid = vidFiles[i];
+
+		//Don't log thumbnails
+		if ((publicVidPath + vid).match(/.png$/i)) continue;
+
 		ffmpeg(publicVidPath + vid).ffprobe(function(vid, i, err, data){
 			if (i == vidFiles.length - 1){
 				//If we're at the last file, start the play loop
@@ -113,9 +117,18 @@ module.exports = function(app) {
 					fs.unlink(publicVidPath + newFileName);
 			  }.bind(null, newFileName))
 			  .on('end', function(newFileName) {
-			    console.log('Processing finished !');
-					fs.unlink(newVideo.path);
+			    console.log('Processing finished for ' + newFileName);
+
+					//Don't run this for the png file, which is a separate ffmpeg process
+					if(newFileName.match(/.png$/i)) return;
+
+					fs.unlink(newVideo.path); //Delete original upload
 					ffmpeg(publicVidPath + newFileName).ffprobe(addVidToList.bind(null, newFileName));
+
+					//check passport for user
+					if (req.user){
+						req.user.addVid(newFileBase);
+					}
 			  }.bind(null, newFileName))
 				.save(publicVidPath + newFileName);
 		}
