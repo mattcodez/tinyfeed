@@ -90,7 +90,8 @@ module.exports = function(app) {
 		var newVideo = req.files.videos;
 		if (newVideo){
 			//Regex to remove uploaded file extension
-			var newFileName = newVideo.name.replace(/\.[^/.]+$/, "") + '.mp4';
+			var newFileBase = newVideo.name.replace(/\.[^/.]+$/, "");
+			var newFileName = newFileBase + '.mp4';
 			var vid = ffmpeg(newVideo.path)
 				.videoCodec('libx264')
 				.videoBitrate('819k')
@@ -98,6 +99,12 @@ module.exports = function(app) {
 				.duration(10)
 				.format('mp4')
 				.outputOptions('-pix_fmt yuv420p')
+				.screenshots({
+					timestamps: [1],
+					filename: newFileBase + '.png',
+					folder: publicVidPath,
+					size: '320x240'
+				})
 				.on('start', function(commandLine) {
     			console.log('Spawned Ffmpeg with command: ' + commandLine);
   			})
