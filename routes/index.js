@@ -130,7 +130,7 @@ module.exports = function(app) {
 						req.user.addVid(newFileBase);
 					}
 			  }.bind(null, newFileName))
-				.save(publicVidPath + newFileName);
+				.output(publicVidPath + newFileName);
 		}
 
 		res.status(200).end();

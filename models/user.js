@@ -11,6 +11,7 @@ var fields = {
 	password:			{ type: String, select: false, required: true, trim: true },
 	displayName:		{ type: String, default: 'Your name here', required: true, trim: true },
 						// TODO - Can displayName be unique and default to null?
+						//What if the property just isn't there?
 						// http://docs.mongodb.org/manual/tutorial/create-a-unique-index/
 	active:				{ type: Boolean, default: true },
 	created:			{ type: Date, default: Date.now },
@@ -43,7 +44,7 @@ schema.methods.validPassword = function(password){
 
 schema.methods.addVid = function(baseName){
 	this.uploads.videos.addToSet(baseName);
-	this.save();
+	this.save(function(err){err && console.log(err);});
 }
 
 module.exports = mongoose.model('User', schema);
