@@ -78,15 +78,18 @@ module.exports = function(app) {
 	      return res.json({errMsg:info.message});
 	    }
 
-	    //I prefer to explicitly build the field list being sent to the client
-			//so that no critical fields get sent by mistake. For example, the
-			//password field is in `user` because we needed to have it to verify login.
-			res.json({user:{
-				email:  		 user.email,
-				displayName: user.displayName,
-				uploads:  	 user.uploads,
-				metrics: 		 user.metrics
-			}});
+			req.login(user, function(err) {
+				if (err) { return next(err); }
+				//I prefer to explicitly build the field list being sent to the client
+				//so that no critical fields get sent by mistake. For example, the
+				//password field is in `user` because we needed to have it to verify login.
+				return res.json({user:{
+					email:  		 user.email,
+					displayName: user.displayName,
+					uploads:  	 user.uploads,
+					metrics: 		 user.metrics
+				}});
+			});
 	  })(req, res, next);
 	};
 
@@ -109,6 +112,7 @@ module.exports = function(app) {
 					folder: publicVidPath,
 					size: '320x240'
 				})
+				.output(publicVidPath + newFileName)
 				.on('start', function(commandLine) {
     			console.log('Spawned Ffmpeg with command: ' + commandLine);
   			})
@@ -119,9 +123,6 @@ module.exports = function(app) {
 			  .on('end', function(newFileName) {
 			    console.log('Processing finished for ' + newFileName);
 
-					//Don't run this for the png file, which is a separate ffmpeg process
-					if(newFileName.match(/.png$/i)) return;
-
 					fs.unlink(newVideo.path); //Delete original upload
 					ffmpeg(publicVidPath + newFileName).ffprobe(addVidToList.bind(null, newFileName));
 
@@ -129,8 +130,7 @@ module.exports = function(app) {
 					if (req.user){
 						req.user.addVid(newFileBase);
 					}
-			  }.bind(null, newFileName))
-				.output(publicVidPath + newFileName);
+			  }.bind(null, newFileName));
 		}
 
 		res.status(200).end();
