@@ -28,7 +28,10 @@ var schema = new Schema(fields);
 
 schema.pre('save', true, function(next, done){
 	var user = this;
-	if (!user.isModified('password')) return next();
+	if (!user.isModified('password')){
+		done();
+		return next();
+	}
 
 	next();
 	bcrypt.hash(user.password, null, null, function(err, hash) {
