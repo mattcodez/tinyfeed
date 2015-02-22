@@ -8,25 +8,44 @@ module.exports = function(app) {
 	var publicVidPath = 'public/video/';
 	var vidList = [];
 
-	var vidFiles = fs.readdirSync(publicVidPath);
+	try {
+		var vidFiles = fs.readdirSync(publicVidPath);
+	}
+	catch(err) {
+		console.log('Error reading video directory');
+		console.dir(err);
+		if (err.errno === -4058){
+			console.log('Video path missing, attempting to create');
+			fs.mkdirSync(publicVidPath);
+			vidFiles = [];
+		}
+	}
 	var filesSorted = vidFiles.sort();
 	var lastFile = filesSorted[filesSorted.length - 1];
 
 
 	//Build vid list
-	for (var i = 0; i < vidFiles.length; i++){
-		var vid = vidFiles[i];
-		ffmpeg(publicVidPath + vid).ffprobe(function(vid, i, err, data){
-			if (i == vidFiles.length - 1){
-				//If we're at the last file, start the play loop
-				//may not be completely in order but should be close enough
-				//since video playback will take time anyways
-				playFunc();
-				fileBroadcast();
-			}
+	if (vidFiles.length === 0){
+		//just start play loop if no videos yet
+		console.log('No videos to play');
+		playFunc();
+		fileBroadcast();
+	}
+	else {
+		for (var i = 0; i < vidFiles.length; i++){
+			var vid = vidFiles[i];
+			ffmpeg(publicVidPath + vid).ffprobe(function(vid, i, err, data){
+				if (i == vidFiles.length - 1){
+					//If we're at the last file, start the play loop
+					//may not be completely in order but should be close enough
+					//since video playback will take time anyways
+					playFunc();
+					fileBroadcast();
+				}
 
-			addVidToList(vid, err, data);
-		}.bind(null, vid, i));
+				addVidToList(vid, err, data);
+			}.bind(null, vid, i));
+		}
 	}
 
 	// index.html
@@ -123,6 +142,11 @@ module.exports = function(app) {
 
 	//Start looping through the videos on the server using vid length
 	function playFunc(){
+		if (vidList.length === 0){
+			setTimeout(playFunc, 2000);
+			return;
+		}
+
 		var vid = vidList[vidIndex++];
 
 		if (!vid){
@@ -137,13 +161,17 @@ module.exports = function(app) {
 	//Send the playing and next video name every second
 	function fileBroadcast(){
 		setInterval(function(){
+			if (vidList.length === 0){
+				return;
+			}
+
 			//It's possible that vidIndex is 1 beyond the actual vidList length before
 			//playFunc runs again to reset it
 			//Let's try to keep things simple and not modify vidIndex outside of playFunc
 
 			var playingVid = vidList[vidIndex] || vidList[0];
 			if (!vidList[vidIndex]){
-				var nextVid = vidList[1];
+				var nextVid = vidList[1] || vidList[0];
 			}
 			else {
 				nextVid = vidList[vidIndex + 1] || vidList[0];
