@@ -14,7 +14,7 @@ module.exports = function(app) {
 	catch(err) {
 		console.log('Error reading video directory');
 		console.dir(err);
-		if (err.errno === -4058){
+		if (err.code === 'ENOENT'){
 			console.log('Video path missing, attempting to create');
 			fs.mkdirSync(publicVidPath);
 			vidFiles = [];
