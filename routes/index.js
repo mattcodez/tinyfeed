@@ -56,7 +56,7 @@ module.exports = function(app) {
 	route.main = function(req, res){
 		if (app.get('env') == 'development'){
 			//vidList[vidIndex].file
-			res.render('main', {locals: require('../config/assets.js')});
+			res.render('main', require('../config/assets.js'));
 		}
 		else{
 			res.render('main');
