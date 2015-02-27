@@ -39,3 +39,26 @@ body {
   color:white;
   padding:1em;
 }
+
+/****************************************** /users styles ******************************************/
+.row + .row {
+  margin-top: 30px;
+}
+
+.rank-slider {
+  /*padding: 8px 0px;
+          border-radius: 10px 10px 10px 10px;
+     -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border: 1px solid;*/
+}
+
+/****************************************** /profile styles ******************************************/
+.row + .row {
+  margin-top: 30px;
+}
+
+.upload-info {
+  font-size: 0.8em;
+  font-style: italic;
+}

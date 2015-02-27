@@ -64,7 +64,7 @@ module.exports = function(app) {
 	route.main = function(req, res){
 		if (app.get('env') == 'development'){
 			//vidList[vidIndex].file
-			res.render('main', {locals: require('../config/assets.js')});
+			res.render('main', require('../config/assets.js'));
 		}
 		else{
 			res.render('main');
@@ -91,6 +91,15 @@ module.exports = function(app) {
 				}});
 			});
 	  })(req, res, next);
+	};
+
+	route.profile = function(req, res){
+		if (app.get('env') == 'development'){
+			res.render('profile', require('../config/assets.js'));
+		}
+		else{
+			res.render('profile');
+		}
 	};
 
 	route.upload = function(req, res){
@@ -145,6 +154,15 @@ module.exports = function(app) {
 		res.status(200).end();
 	};
 
+	route.users = function(req, res){
+		if (app.get('env') == 'development'){
+			res.render('users', require('../config/assets.js'));
+		}
+		else{
+			res.render('users');
+		}
+	};
+
 	var io = app.io;
 	io.on('connection', function (socket) {
 	  console.log('socket connected');
@@ -153,6 +171,8 @@ module.exports = function(app) {
 	app.post('/login', route.login);
 	app.post('/upload', route.upload);
 	app.get('/', route.main);
+	app.get('/users', route.users);
+	app.get('/profile', route.profile);
 
 	function addVidToList(vid, err, data) {
 		if (err){
