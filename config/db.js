@@ -2,11 +2,11 @@
 var mongoose = require('mongoose');
 
 var config = {
-  "db": "tinyfeed",  
-  "host": "localhost",  
-  "user": "",
-  "pw": "",
-  "port": 27017
+  "db": process.env.MONGODB_DATABASE || "tinyfeed",
+  "host": process.env.MONGODB_HOST || "localhost",
+  "user": process.env.MONGODB_USERNAME || "",
+  "pw": process.env.MONGODB_PASSWORD || "",
+  "port": process.env.MONGODB_PORT || 27017
 };
 
 var port = (config.port.length > 0) ? ":" + config.port : '';
