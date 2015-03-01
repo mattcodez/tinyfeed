@@ -66,6 +66,8 @@ module.exports = function(app) {
 	route.upload = function(req, res){
 		var newVideo = req.files.videos;
 		console.log('Upload made, file: ' + (newVideo && newVideo.path));
+		//FIXME: remove later
+		console.dir(fs.readdirSync('.'));
 		if (newVideo){
 			//Regex to remove uploaded file extension
 			var newFileName = newVideo.name.replace(/\.[^/.]+$/, "") + '.mp4';
