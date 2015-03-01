@@ -82,8 +82,8 @@ module.exports = function(app) {
     			console.log('Spawned Ffmpeg with command: ' + commandLine);
   			})
 				.on('error', function(newFileName, err1, err2, err3) {
-					console.log(err1);
-					fs.unlink(publicVidPath + newFileName);
+					console.log(arguments);
+					fs.unlink(newVideo.path);
 			  }.bind(null, newFileName))
 			  .on('end', function(newFileName) {
 			    console.log('Processing finished !');
