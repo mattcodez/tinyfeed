@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= siteName %></title>
+  <% for (var i = 0; i < css.length; i++) { %>
+    <link rel="stylesheet" href="<%= css[i] %>">
+  <% } %>
+</head>
+<body>
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand spotlight" href="/"><img class="img-responsive" src="img/tinyfeed.png" id="logo"></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a class="spotlight" href="#">Claim your spotlight!!</a></li>
+          <li class="username"></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#" data-toggle="modal" data-target="#about">What is tinyfeed?</a></li>
+              <li><a class="login" href="#" data-toggle="modal" data-target="#loginSignup">Login</a></li>
+              <li><a class="signup" href="#" data-toggle="modal" data-target="#loginSignup">Signup</a></li>
+              <li><a class="users" href="/users">Users</a></li>
+              <li><a href="terms.html" target="_blank">Terms of Service</a></li>
+              <li class="divider"></li>
+              <li class="dropdown-header">Contact Us</li>
+              <li><a href="mailto:info@tinyfeed.me">Email</a></li>
+              <li><a href="#">Leave Feedback - Coming soon!</a></li>
+              <li><a href="#">Report a Problem - Coming soon!</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- TODO: Dynamically generate this content -->
+    <div class="row">
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
+        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
+        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
+        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
+        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
+        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
+        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
+        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
+      </div>
+
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
+        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
+      </div>
+    </div>
+  </div>
+
+  <% for (var i = 0; i < js.length; i++) { %>
+    <script src="<%= js[i] %>"></script>
+  <% } %>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-3495504-3', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+</body>
+</html>
