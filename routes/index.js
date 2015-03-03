@@ -8,16 +8,6 @@ module.exports = function(app) {
 	var publicVidPath = 'public/video/';
 	var vidList = [];
 
-	console.log('FFMPEG path env: ' + process.env.FFMPEG_PATH);
-	try {
-		var ffmpegExists = fs.readdirSync(process.env.FFMPEG_PATH);
-		console.log('ffmpegBinary found: ' + ffmpegExists);
-	}
-	catch(err){
-		console.log("Can't find ffmpeg");
-		console.dir(err);
-	}
-
 	try {
 		var vidFiles = fs.readdirSync(publicVidPath);
 	}
