@@ -5,14 +5,14 @@ var _ = require('lodash');
 module.exports = function(app) {
 	var route = {};
 	var vidIndex = 0;
-	var publicVidPath = 'public/video/';
+	var publicVidPath = process.env.VIDEO_PATH || 'public/video/';
 	var vidList = [];
 
 	try {
 		var vidFiles = fs.readdirSync(publicVidPath);
 	}
 	catch(err) {
-		console.log('Error reading video directory');
+		console.log('Error reading video directory: ' + publicVidPath);
 		console.dir(err);
 		if (err.code === 'ENOENT'){
 			console.log('Video path missing, attempting to create');
