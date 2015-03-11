@@ -3,8 +3,8 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= siteName %></title>
-  <% for (var i = 0; i < css.length; i++) { %>
-    <link rel="stylesheet" href="<%= css[i] %>">
+  <% for (var i = 0; i < assets.css.length; i++) { %>
+    <link rel="stylesheet" href="<%= assets.css[i] %>">
   <% } %>
 </head>
 <body>
@@ -23,7 +23,7 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class="active"><a class="spotlight" href="#">Claim your spotlight!!</a></li>
-          <li class="username"></li>
+          <li class="username"><%= displayName %></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
@@ -59,7 +59,7 @@
     </div>
   </div>
 
-  <% if (env == 'production') { %>
+  <% if (assets.env == 'production') { %>
     <video id="videoFeed" autoplay controls preload="auto"></video>
   <% } else { %>
     <video id="videoFeed" controls preload="auto"></video>
@@ -131,8 +131,8 @@
 
   <script src="/socket.io/socket.io.js"></script>
 
-  <% for (var i = 0; i < js.length; i++) { %>
-    <script src="<%= js[i] %>"></script>
+  <% for (var i = 0; i < assets.js.length; i++) { %>
+    <script src="<%= assets.js[i] %>"></script>
   <% } %>
 
   <script>
