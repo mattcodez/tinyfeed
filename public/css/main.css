@@ -33,7 +33,7 @@ body {
   width:100%;
 }
 
-#loginForm FORM{
+#loginForm form{
   background-color: #6C7A89;
   border-radius: 6%;
   color:white;

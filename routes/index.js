@@ -152,7 +152,7 @@ module.exports = function(app) {
 					fs.unlink(newVideo.path); //Delete original upload
 					ffmpeg(publicVidPath + newFileName).ffprobe(addVidToList.bind(null, newFileName));
 
-					//check passport for user
+					/*//check passport for user
 					if (true || req.user){
 						User.findById('54924652e87629782709307d', function(err, user){
 							console.dir(user);
@@ -164,6 +164,9 @@ module.exports = function(app) {
 						//req.user.uploads.videos.addToSet(newFileBase);
 						//req.user.displayName = 'moomoo';
 						//console.log(typeof req.user.save);
+					}*/
+					if (req.user) {
+						req.user.addVid(newFileBase);
 					}
 			  }.bind(null, newFileName));
 		}

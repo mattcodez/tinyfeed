@@ -5,9 +5,9 @@ module.exports = function(app) {
 
   // GET
   app.get('/api/user/:id', function (req, res) {
-    Post.findById(
+    User.findById(
       req.params.id,
-      'email displayName created',
+      'email displayName active created uploads metrics',
       function(err, user) {
         if (err) {
           res.json(404, err);

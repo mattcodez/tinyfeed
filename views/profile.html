@@ -6,6 +6,11 @@
   <% for (var i = 0; i < css.length; i++) { %>
     <link rel="stylesheet" href="<%= css[i] %>">
   <% } %>
+  <style>
+  #videos_container {
+    padding-top: 30px;
+  }
+  </style>
 </head>
 <body>
   <!-- Fixed navbar -->
@@ -46,49 +51,8 @@
     </div>
   </nav>
 
-  <div class="container">
-    <!-- TODO: Dynamically generate this content -->
-    <div class="row">
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
-        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
-        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
-        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
-        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
-        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
-        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
-        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <img class="img-responsive img-rounded" src="http://placehold.it/288x162">
-        <span class="upload-info">Uploaded: 2/25/15 1:30pm<br>Views: 3<br>Fame: 1</span>
-      </div>
-    </div>
+  <div id="videos_container" class="container">
+    <div class="row"></div>
   </div>
 
   <% for (var i = 0; i < js.length; i++) { %>
@@ -103,6 +67,24 @@
 
     ga('create', 'UA-3495504-3', 'auto');
     ga('send', 'pageview');
+  </script>
+
+  <script>
+    $(function() {
+    $.ajax({
+      type: 'get',
+      url: '/api/user/54f5044f71eec4041c2491f1',
+      cache: false,
+      dataType: 'json'
+    }).done(function (res) {
+      $.each(res['user']['uploads']['videos'], function (index, value) {
+        $('#videos_container .row').append('<div class="col-sm-6 col-md-4 col-lg-3">' +
+                                            '<img class="img-responsive img-rounded" src="video_thumb/' + value + '.png">' +
+                                            '<span class="upload-info">Uploaded: example time<br>Views: 0<br>Fame: 0</span>' +
+                                          '</div>');
+      });
+    });
+    });
   </script>
 
 </body>
