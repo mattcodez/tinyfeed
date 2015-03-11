@@ -69,7 +69,7 @@ function init(){
 							.show();
 					}
 					else {
-						$('#navbar .username').text(data.user.email);
+						$('#navbar .username').text(data.user.displayName);
 						loginModal.modal('hide');
 					}
 				});

@@ -79,13 +79,13 @@ module.exports = function(app) {
 	));
 
 	route.main = function(req, res){
+		var props = {displayName:(req.user && req.user.displayName)};
+
 		if (app.get('env') == 'development'){
-			//vidList[vidIndex].file
-			res.render('main', require('../config/assets.js'));
+			props.assets = require('../config/assets.js');
 		}
-		else{
-			res.render('main');
-		}
+
+		res.render('main', props);
 	};
 
 	route.login = function(req, res, next){
