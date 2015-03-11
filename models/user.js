@@ -22,7 +22,7 @@ var fields = {
 						// http://docs.mongodb.org/manual/tutorial/create-a-unique-index/
 	active:				{ type: Boolean, default: true },
 	created:			{ type: Date, default: Date.now },
-	uploads:			[videoSubDoc]
+	uploads:			[videoSubDoc],
 	metrics: {
 		fame:			{ type: Number, default: 0 },
 		timeWatching:	{ type: Number, default: 0 }
