@@ -51,7 +51,7 @@ schema.methods.validPassword = function(password){
 };
 
 schema.methods.addVid = function(baseName){
-	this.uploads.videos.addToSet(baseName);
+	this.uploads.addToSet({name: baseName, uploaded: Date.now, fame: 0, views: 0});
 	this.save(function(err){err && console.log(err);});
 }
 

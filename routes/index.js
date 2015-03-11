@@ -10,6 +10,7 @@ module.exports = function(app) {
 	var route = {};
 	var vidIndex = 0;
 	var publicVidPath = process.env.VIDEO_PATH || 'public/video/';
+	var publicThumbPath = process.env.THUMB_PATH || 'public/video_thumb/';
 	var vidList = [];
 
 	try {
@@ -135,7 +136,7 @@ module.exports = function(app) {
 				.screenshots({
 					timestamps: [1],
 					filename: newFileBase + '.png',
-					folder: publicVidPath,
+					folder: publicThumbPath,
 					size: '320x240'
 				})
 				.output(publicVidPath + newFileName)

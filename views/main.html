@@ -59,10 +59,11 @@
     </div>
   </div>
 
-  <!-- TODO: Use this for production.
-  <video id="videoFeed" autoplay controls preload="auto"></video>
-  -->
-  <video id="videoFeed" controls preload="auto"></video>
+  <% if (env == 'production') { %>
+    <video id="videoFeed" autoplay controls preload="auto"></video>
+  <% } else { %>
+    <video id="videoFeed" controls preload="auto"></video>
+  <% } %>
 
   <div id="about" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="about" aria-hidden="true">
     <div class="modal-dialog">

@@ -12,5 +12,7 @@ module.exports = {
     'bower_components/sweetalert/lib/sweet-alert.css',
     /*'bower_components/videojs/dist/video-js/video-js.min.css',*/
     'css/main.css'
-  ]
+  ],
+
+  env:  process.env.NODE_ENV || 'development'
 };
