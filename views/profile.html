@@ -3,8 +3,8 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= siteName %></title>
-  <% for (var i = 0; i < css.length; i++) { %>
-    <link rel="stylesheet" href="<%= css[i] %>">
+  <% for (var i = 0; i < assets.css.length; i++) { %>
+    <link rel="stylesheet" href="<%= assets.css[i] %>">
   <% } %>
   <style>
   #videos_container {
@@ -55,8 +55,9 @@
     <div class="row"></div>
   </div>
 
-  <% for (var i = 0; i < js.length; i++) { %>
-    <script src="<%= js[i] %>"></script>
+  <% for (var i = 0; i < assets.js.length; i++) { 
+    if (assets.js[i] == 'js/main.js') continue; %>
+    <script src="<%= assets.js[i] %>"></script>
   <% } %>
 
   <script>
@@ -73,13 +74,13 @@
     $(function() {
     $.ajax({
       type: 'get',
-      url: '/api/user/54ff9aabb6ddbb041760a13d',
+      url: '/api/user/<%= id %>',
       cache: false,
       dataType: 'json'
     }).done(function (res) {
-      $.each(res['user']['uploads']['videos'], function (index, value) {
+      $.each(res['user']['uploads'], function (index, value) {
         $('#videos_container .row').append('<div class="col-sm-6 col-md-4 col-lg-3">' +
-                                            '<img class="img-responsive img-rounded" src="video_thumb/' + value + '.png">' +
+                                            '<img class="img-responsive img-rounded" src="video_thumb/' + value['name'] + '.png">' +
                                             '<span class="upload-info">Uploaded: example time<br>Views: 0<br>Fame: 0</span>' +
                                           '</div>');
       });

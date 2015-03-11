@@ -101,22 +101,23 @@ module.exports = function(app) {
 				//so that no critical fields get sent by mistake. For example, the
 				//password field is in `user` because we needed to have it to verify login.
 				return res.json({user:{
-					email:  		 user.email,
+					email:  	 user.email,
 					displayName: user.displayName,
 					uploads:  	 user.uploads,
-					metrics: 		 user.metrics
+					metrics: 	 user.metrics
 				}});
 			});
 	  })(req, res, next);
 	};
 
 	route.profile = function(req, res){
+		var props = {id:(req.user && req.user.id)};
+
 		if (app.get('env') == 'development'){
-			res.render('profile', require('../config/assets.js'));
+			props.assets = require('../config/assets.js');
 		}
-		else{
-			res.render('profile');
-		}
+		
+		res.render('profile', props);
 	};
 
 	route.upload = function(req, res){
