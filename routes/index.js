@@ -9,14 +9,14 @@ var _ = require('lodash');
 module.exports = function(app) {
 	var route = {};
 	var vidIndex = 0;
-	var publicVidPath = 'public/video/';
+	var publicVidPath = process.env.VIDEO_PATH || 'public/video/';
 	var vidList = [];
 
 	try {
 		var vidFiles = fs.readdirSync(publicVidPath);
 	}
 	catch(err) {
-		console.log('Error reading video directory');
+		console.log('Error reading video directory: ' + publicVidPath);
 		console.dir(err);
 		if (err.code === 'ENOENT'){
 			console.log('Video path missing, attempting to create');
@@ -120,7 +120,7 @@ module.exports = function(app) {
 
 	route.upload = function(req, res){
 		var newVideo = req.files.videos;
-		console.log('Upload made, file: ' + (newVideo && newVideo.name));
+		console.log('Upload made, file: ' + (newVideo && newVideo.path));
 		if (newVideo){
 			//Regex to remove uploaded file extension
 			var newFileBase = newVideo.name.replace(/\.[^/.]+$/, "");
@@ -143,8 +143,8 @@ module.exports = function(app) {
     			console.log('Spawned Ffmpeg with command: ' + commandLine);
   			})
 				.on('error', function(newFileName, err1, err2, err3) {
-					console.log(err1);
-					fs.unlink(publicVidPath + newFileName);
+					console.log(arguments);
+					fs.unlink(newVideo.path);
 			  }.bind(null, newFileName))
 			  .on('end', function(newFileName) {
 			    console.log('Processing finished for ' + newFileName);
