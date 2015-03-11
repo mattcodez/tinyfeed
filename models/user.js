@@ -34,8 +34,8 @@ var schema = new Schema(fields);
 schema.pre('save', true, function(next, done){
 	var user = this;
 	if (!user.isModified('password')){
-		done();
-		return next();
+		next();
+		return done();
 	}
 
 	next();
@@ -51,8 +51,8 @@ schema.methods.validPassword = function(password){
 };
 
 schema.methods.addVid = function(baseName){
-	this.uploads.addToSet({name: baseName, uploaded: Date.now, fame: 0, views: 0});
-	this.save(function(err){err && console.log(err);});
+	this.uploads.addToSet({name: baseName});
+	this.save(function(err){err && handleError(res, err);});
 }
 
 module.exports = mongoose.model('User', schema);
