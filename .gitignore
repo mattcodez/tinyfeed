@@ -3,3 +3,4 @@ node_modules
 /public/video
 /dist
 /npm-debug.log
+/public/video_thumb
