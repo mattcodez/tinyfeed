@@ -40,6 +40,27 @@ body {
   padding:1em;
 }
 
+.navbar-nav .btn {
+  top: 5px;
+}
+.btn.outline {
+    background: none;
+    padding: 8px 12px;
+}
+.btn-primary.outline {
+    border: 2px solid white;
+    color: white !important;
+}
+.btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
+    border-color: #33a6cc;
+    color: #33a6cc !important;
+}
+.btn-primary.outline:active, .btn-primary.outline.active {
+    border-color: #007299;
+    color: #007299 !important;
+    box-shadow: none;
+}
+
 /****************************************** /users styles ******************************************/
 .row + .row {
   margin-top: 30px;
