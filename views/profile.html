@@ -72,19 +72,30 @@
 
   <script>
     $(function() {
-    $.ajax({
-      type: 'get',
-      url: '/api/user/<%= id %>',
-      cache: false,
-      dataType: 'json'
-    }).done(function (res) {
-      $.each(res['user']['uploads'], function (index, value) {
-        $('#videos_container .row').append('<div class="col-sm-6 col-md-4 col-lg-3">' +
-                                            '<img class="img-responsive img-rounded" src="video_thumb/' + value['name'] + '.png">' +
-                                            '<span class="upload-info">Uploaded: example time<br>Views: 0<br>Fame: 0</span>' +
-                                          '</div>');
-      });
-    });
+      <% if (id) { %>
+        $.ajax({
+          type: 'get',
+          url: '/api/user/<%= id %>',
+          cache: false,
+          dataType: 'json'
+        }).done(function (res) {
+          if (res['user']['uploads'].length !== 0) {
+            $.each(res['user']['uploads'], function (index, value) {
+              $('#videos_container .row').append('<div class="col-sm-6 col-md-4 col-lg-3">' +
+                                                  '<img class="img-responsive img-rounded" src="video_thumb/' + value['name'] + '.png">' +
+                                                  '<span class="upload-info">Uploaded: example time<br>Views: 0<br>Fame: 0</span>' +
+                                                '</div>');
+            });
+          } else {
+            $('#videos_container .row').append('<div class="col-xs-12 message">You must upload your first video to view your profile!</div><br>'/* +
+                                               '<div class="col-xs-12 message-button">' +
+                                                 '<a class="spotlight btn btn-primary outline btn-huge" href="#">Claim your spotlight!!</a>' +
+                                               '</div>'*/);
+          }
+        });
+      <% } else { %>
+        $('#videos_container .row').append('<div class="message">You must log in to view your profile.</div>');
+      <% } %>
     });
   </script>
 

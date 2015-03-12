@@ -5,24 +5,24 @@ var mongoose = require('mongoose'),
 		Schema = mongoose.Schema,
 		ObjectId = Schema.ObjectId;
 
-var videoSubDoc = new Schema ({
-	name:		{ type: String, required: true, unique: true },
-	uploaded:	{ type: Date, default: Date.now },
-	fame:		{ type: Number, default: 0 },
-	views:		{ type: Number, default: 0 }
-});
+//var videoSubDoc = new Schema ();
 
 var fields = {
 	//email right now is effectively their username for logging in
 	email:				{ type: String, select: false, required: true, unique: true, lowercase: true, trim: true },
 	password:			{ type: String, select: false, required: true, trim: true },
-	displayName:		{ type: String, default: 'Your name here', required: true, trim: true },
+	displayName:		{ type: String, unique: true, sparse: true, trim: true },
 						// TODO - Can displayName be unique and default to null?
 						//What if the property just isn't there?
 						// http://docs.mongodb.org/manual/tutorial/create-a-unique-index/
 	active:				{ type: Boolean, default: true },
 	created:			{ type: Date, default: Date.now },
-	uploads:			[videoSubDoc],
+	uploads:			[{
+							name:		{ type: String, required: true, unique: true },
+							uploaded:	{ type: Date, default: Date.now },
+							fame:		{ type: Number, default: 0 },
+							views:		{ type: Number, default: 0 }
+						}],
 	metrics: {
 		fame:			{ type: Number, default: 0 },
 		timeWatching:	{ type: Number, default: 0 }

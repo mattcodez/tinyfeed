@@ -83,3 +83,21 @@ body {
   font-size: 0.8em;
   font-style: italic;
 }
+
+.message {
+  padding-top: 40px;
+  text-align: center;
+  font-size: 40px;
+  color: white;
+}
+
+.message-button {
+  text-align: center;
+  padding-top: 60px;
+}
+
+.btn-huge {
+  font-size: 40px;
+  padding: 20px 40px;
+  border-radius: 8px;
+}

@@ -28,6 +28,7 @@ module.exports = function(app) {
     }
 
     user = new User(req.body.user);
+    console.log(user);
 
     user.save(function (err) {
       if (!err) {
