@@ -12,6 +12,7 @@ var express = require('express'),
     socketio = require('socket.io'),
     session = require('express-session'),
     passport = require('passport'),
+    forceDomain = require('forcedomain'),
     MongoStore = require('connect-mongo')(session);
 
 var app = module.exports = exports.app = express();
@@ -73,6 +74,10 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(methodOverride());
 app.use(bodyParser());
+
+app.use(forceDomain({
+  hostname: 'tinyfeed.me'
+}));
 
 app.use(session({
   secret: 'ji4(3.0Ul!',
