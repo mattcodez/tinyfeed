@@ -79,7 +79,11 @@ module.exports = function(app) {
 	));
 
 	route.main = function(req, res){
-		var props = {displayName:(req.user && req.user.displayName)};
+		console.log(req.user);
+		var props = !req.user ? {} : {
+			displayName: req.user.displayName,
+			email: req.user.email
+		};
 
 		if (app.get('env') == 'development'){
 			props.assets = require('../config/assets.js');
@@ -116,7 +120,7 @@ module.exports = function(app) {
 		if (app.get('env') == 'development'){
 			props.assets = require('../config/assets.js');
 		}
-		
+
 		res.render('profile', props);
 	};
 

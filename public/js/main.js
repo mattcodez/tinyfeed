@@ -69,14 +69,20 @@ function init(){
 							.show();
 					}
 					else {
-						$('#navbar .username').text(data.user.displayName);
-						loginModal.modal('hide');
+						postLoginUI(data.user);
 					}
 				});
 
 				return false;
 			});
 	});
+
+	function postLoginUI(user){
+		$('#navbar .username').text(
+			user.name || user.email
+		);
+		loginModal.modal('hide');
+	}
 
 	$('a.signup').on('click', function(e){
 		loginModal
@@ -109,8 +115,7 @@ function init(){
 							)
 					}).done(function (data){
 						//Success!
-						$('#navbar .username').text(data.user.displayName);
-						loginModal.modal('hide');
+						postLoginUI(data.user);
 					}).fail(function(xhr){
 						var data = JSON.parse(xhr.responseText);
 						if (data.errMsg){
