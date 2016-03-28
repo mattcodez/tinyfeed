@@ -1,3 +1,3 @@
 # tinyfeed
 
-Doc, are you telling me that you built a time machine out of a delorean.
+A web application that permits users to upload videos which are then live streamed on a continual basis.
